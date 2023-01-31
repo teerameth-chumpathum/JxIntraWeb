@@ -686,12 +686,19 @@ namespace JxIntraWeb.App_Pages
                     incGlobalDataPatternObj.AddDataToTableMaintainCostCollection(DRow["MNT_LINENO_DESC"].ToString(), float.Parse(DRow["MNT_LINENO_PRICE"].ToString()), DRow["MNT_LINENO_SERVICER"].ToString(), MaintainTbl2);
                 }
                 Session["MaintainTbl2"] = MaintainTbl2;
+                double MnPriceOP = 0.00;
                 foreach (DataRow DRow in OrderDSet.Tables["TB_ORDER_PART"].Rows)
                 {
-                    incGlobalDataPatternObj.AddDataToTableMaintainPartCollection(DRow["MNT_LINENO_DESC"].ToString(), Convert.ToInt32(DRow["MNT_LINENO_AMT"].ToString()), MaintainTbl3);
+                    incGlobalDataPatternObj.AddDataToTableMaintainPartCollection(
+                        DRow["MNT_LINENO_DESC"].ToString(), 
+                        Convert.ToInt32(DRow["MNT_LINENO_AMT"].ToString()), 
+                        Convert.ToDouble(DRow["MNT_PRICE"].ToString()), 
+                        MaintainTbl3);
+                    MnPriceOP += Convert.ToDouble(DRow["MNT_PRICE"].ToString());
                 }
-                Session["MaintainTbl3"] = MaintainTbl3;
+                lblAmtPrice.Text = MnPriceOP.ToString("#,##0.00");
 
+                Session["MaintainTbl3"] = MaintainTbl3;
                 foreach (DataRow DRow in OrderDSet.Tables["TB_ORDER_DESC2"].Rows)
                 {
                     incGlobalDataPatternObj.AddDataToTableMaintainL2Collection(DRow["MNT_LINENO_DESC"].ToString(), MaintainTbl4);
@@ -1531,6 +1538,8 @@ namespace JxIntraWeb.App_Pages
                     TxtDescription = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescriptionPart")).Text.Trim();
                     StrAmt = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescriptionPartAmt")).Text.Trim();
                     MnAmt = Convert.ToInt32(StrAmt);
+                    string StrPrice = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescPrice")).Text.Trim();
+                    double MnPrice = Convert.ToDouble(StrPrice);
                     //
                     foreach (DataRow dr in MaintainTbl3.Rows)
                     {
@@ -1538,6 +1547,7 @@ namespace JxIntraWeb.App_Pages
                         {
                             dr["MnDesc"] = TxtDescription;
                             dr["MnAmt"] = MnAmt;
+                            dr["MnPrice"] = MnPrice;
                             break;
                         }
                     }
@@ -1757,6 +1767,9 @@ namespace JxIntraWeb.App_Pages
             string TxtDescription = "";
             string StrAmt = "0";
             float MnAmt = 0;
+            string StrPrice = "";
+            double MnPrice = 0.00;
+            double AmtPrice = 0.00;
             MaintainTbl3 = (DataTable)Session["MaintainTbl3"];
             GlobalDataPattern incGlobalDataPatternObj = new GlobalDataPattern();
 
@@ -1769,6 +1782,8 @@ namespace JxIntraWeb.App_Pages
                     TxtDescription = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescriptionPart")).Text.Trim();
                     StrAmt = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescriptionPartAmt")).Text.Trim();
                     MnAmt = Convert.ToInt32(StrAmt);
+                    StrPrice = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescPrice")).Text.Trim();
+                    MnPrice = Convert.ToDouble(StrPrice);
                     //
                     foreach (DataRow dr in MaintainTbl3.Rows)
                     {
@@ -1776,17 +1791,19 @@ namespace JxIntraWeb.App_Pages
                         {
                             dr["MnDesc"] = TxtDescription;
                             dr["MnAmt"] = MnAmt;
+                            dr["MnPrice"] = MnPrice;
+                            AmtPrice += MnPrice;
                             break;
                         }
                     }
                 }
-
-                incGlobalDataPatternObj.AddDataToTableMaintainPartCollection("--", 1, MaintainTbl3);
+                lblAmtPrice.Text = AmtPrice.ToString("#,##0.00");
+                incGlobalDataPatternObj.AddDataToTableMaintainPartCollection("--", 1,0.00, MaintainTbl3);
                 MaintainTbl3.AcceptChanges();
             }
             else
             {
-                incGlobalDataPatternObj.AddDataToTableMaintainPartCollection("--", 1, MaintainTbl3);
+                incGlobalDataPatternObj.AddDataToTableMaintainPartCollection("--", 1,0.00, MaintainTbl3);
                 MaintainTbl3.AcceptChanges();
             }
             Session["MaintainTbl3"] = MaintainTbl3;
@@ -1818,6 +1835,8 @@ namespace JxIntraWeb.App_Pages
                     TxtDescription = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescriptionPart")).Text.Trim();
                     StrAmt = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescriptionPartAmt")).Text.Trim();
                     MnAmt = Convert.ToInt32(StrAmt);
+                    string StrPrice = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescPrice")).Text.Trim();
+                    double MnPrice = Convert.ToDouble(StrPrice);
                     //
                     foreach (DataRow dr in MaintainTbl3.Rows)
                     {
@@ -1825,6 +1844,7 @@ namespace JxIntraWeb.App_Pages
                         {
                             dr["MnDesc"] = TxtDescription;
                             dr["MnAmt"] = MnAmt;
+                            dr["MnPrice"] = MnPrice;
                             //
                             break;
                         }
@@ -2565,6 +2585,9 @@ namespace JxIntraWeb.App_Pages
             string TxtDescription = "";
             string StrAmt = "0";
             float MnAmt = 0;
+            string StrPrice = "";
+            double MnPrice = 0.00;
+            double AmtPrice= 0.00;
             MaintainTbl3 = (DataTable)Session["MaintainTbl3"];
             GlobalDataPattern incGlobalDataPatternObj = new GlobalDataPattern();
 
@@ -2577,6 +2600,8 @@ namespace JxIntraWeb.App_Pages
                     TxtDescription = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescriptionPart")).Text.Trim();
                     StrAmt = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescriptionPartAmt")).Text.Trim();
                     MnAmt = Convert.ToInt32(StrAmt);
+                    StrPrice = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescPrice")).Text.Trim();
+                    MnPrice = Convert.ToDouble(StrPrice);
                     //
                     foreach (DataRow dr in MaintainTbl3.Rows)
                     {
@@ -2584,11 +2609,14 @@ namespace JxIntraWeb.App_Pages
                         {
                             dr["MnDesc"] = TxtDescription;
                             dr["MnAmt"] = MnAmt;
+                            dr["MnPrice"] = MnPrice;
+                            AmtPrice =+ MnPrice;
                             break;
                         }
                     }
                 }
-
+                //lblAmtPrice.Text = Convert.ToString(AmtPrice);
+                lblAmtPrice.Text = AmtPrice.ToString("#,##0.00");
                 //incGlobalDataPatternObj.AddDataToTableMaintainPartCollection("--", 1, MaintainTbl3);
                 MaintainTbl3.AcceptChanges();
             }
@@ -2608,13 +2636,14 @@ namespace JxIntraWeb.App_Pages
                 DSetAsset = incJxTransactionServiceObj.GetPartRequestionCollection(ReqOrderNo);
                 string PartDesc = "";
                 int PartAmt = 0;
+                double PartPrice = 0.00;
                 foreach (DataRow dr in DSetAsset.Tables["tbt_GIRMDetail"].Rows)
                 {
                     PartDesc = dr["OutboundOrderNo"].ToString() + "|" + dr["ProductCode"].ToString() + "|" + dr["ProductnameTH"].ToString();
                     if (PartDesc.Length > 1000) { PartDesc = PartDesc.Substring(0, 1000); }
                     PartAmt  = Int32.Parse(dr["QuantityShip"].ToString());
-
-                    incGlobalDataPatternObj.AddDataToTableMaintainPartCollection(PartDesc,PartAmt,MaintainTbl3);  
+                    AmtPrice += PartPrice;
+                    incGlobalDataPatternObj.AddDataToTableMaintainPartCollection(PartDesc,PartAmt,PartPrice,MaintainTbl3);  
                 }
             }
             catch { }
@@ -2626,6 +2655,7 @@ namespace JxIntraWeb.App_Pages
             withBlock.DataBind();
             withBlock.AutoGenerateColumns = false;
 
+            lblAmtPrice.Text = AmtPrice.ToString("#,##0.00");
         }
 
         protected void imgBtnORD0_Click(object sender, ImageClickEventArgs e)
@@ -2723,6 +2753,44 @@ namespace JxIntraWeb.App_Pages
             //base.VerifyRenderingInServerForm(control);
         }
 
-        
+        protected void txtDescPrice_TextChanged(object sender, EventArgs e)
+        {
+            string IDx = "";
+            string StrPrice = "";
+            double MnPrice = 0.00;
+            double AmtPrice = 0.00;
+            MaintainTbl3 = (DataTable)Session["MaintainTbl3"];
+            if (GrdRepairPart.Rows.Count > 0)
+            {
+                for (int IRow = 0; IRow < GrdRepairPart.Rows.Count; IRow++)
+                {
+                    IDx = GrdRepairPart.DataKeys[IRow].Value.ToString();
+                    
+                    StrPrice = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescPrice")).Text.Trim();
+                    MnPrice = Convert.ToDouble(StrPrice);
+                    //
+                    foreach (DataRow dr in MaintainTbl3.Rows)
+                    {
+                        if (dr["IDx"].ToString() == IDx)
+                        {
+                            AmtPrice += MnPrice;
+                            break;
+                        }
+                    }
+                }
+                lblAmtPrice.Text = AmtPrice.ToString("#,##0.00");
+                //incGlobalDataPatternObj.AddDataToTableMaintainPartCollection("--", 1, 0.00, MaintainTbl3);
+                MaintainTbl3.AcceptChanges();
+            }
+            else
+            {
+                for (int IRow = 0; IRow < GrdRepairPart.Rows.Count; IRow++)
+                {
+                    StrPrice = ((TextBox)GrdRepairPart.Rows[IRow].FindControl("TxtDescPrice")).Text.Trim();
+                }
+                lblAmtPrice.Text = AmtPrice.ToString("#,##0.00");
+            }
+
+        }
     }
 }

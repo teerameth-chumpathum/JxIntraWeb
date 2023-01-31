@@ -258,12 +258,14 @@ namespace JxIntraWeb.App_DataEngine
                 AutoIncrementStep = 1,
             };
             myDataTable.Columns.Add(myDataColumn0);
+
             DataColumn myDataColumn1 = new DataColumn
             {
                 DataType = Type.GetType("System.String"),
                 ColumnName = "MnDesc"
             };
             myDataTable.Columns.Add(myDataColumn1);
+
             DataColumn myDataColumn2 = new DataColumn
             {
                 DataType = Type.GetType("System.Int32"),
@@ -271,17 +273,30 @@ namespace JxIntraWeb.App_DataEngine
             };
             myDataTable.Columns.Add(myDataColumn2);
 
+            //Add 30012023
+            DataColumn myDataColumn3 = new DataColumn
+            {
+                DataType = Type.GetType("System.Double"),
+                ColumnName = "MnPrice",
+                DefaultValue = 0.00
+            };
+            myDataTable.Columns.Add(myDataColumn3);
+            //
+
             //Table Properties
             myDataTable.TableName = "TBL_MN_COLLECTION";
             //
             return myDataTable;
         }
-        public void AddDataToTableMaintainPartCollection(string MNDescriptionDta, int MnAmtDta, DataTable myTable)
+        public void AddDataToTableMaintainPartCollection(string MNDescriptionDta, int MnAmtDta,double MnPrice, DataTable myTable)
         {
             DataRow row;
             row = myTable.NewRow();
             row["MnDesc"] = MNDescriptionDta;
             row["MnAmt"] = MnAmtDta;
+            //ADD 30012023
+            row["MnPrice"] = MnPrice;
+            //
             myTable.Rows.Add(row);
             myTable.AcceptChanges();
         }

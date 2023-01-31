@@ -1364,7 +1364,7 @@
                                                                                   </asp:TemplateField>
                                                                                   <asp:TemplateField HeaderText="มูลค่า">
                                                                                       <ItemTemplate>
-                                                                                          <asp:TextBox ID="txtDescPrice" runat="server"></asp:TextBox>
+                                                                                          <asp:TextBox ID="txtDescPrice" runat="server" BackColor="#FFFFCC" BorderStyle="None" Font-Size="Small" ForeColor="Black" MaxLength="10" style="text-align:right;" Text ='<%# Bind("MnPrice","{0:N2}") %>' AutoPostBack="True" OnTextChanged="txtDescPrice_TextChanged"></asp:TextBox>
                                                                                       </ItemTemplate>
                                                                                       <HeaderStyle />
                                                                                       <ItemStyle />
@@ -1376,7 +1376,11 @@
                                                                   </tr>
                                                                   <tr>
                                                                       <td>&nbsp;</td>
-                                                                      <td>&nbsp;</td>
+                                                                      <td>
+                                                                          <asp:Label ID="Label1" runat="server" Text="มูลค่ารวม : "></asp:Label>
+                                                                          <asp:Label ID="lblAmtPrice" runat="server" Text=""></asp:Label>
+                                                                          <asp:Label ID="Label2" runat="server" Text=" บาท"></asp:Label>
+                                                                      </td>
                                                                       <td style="text-align:right;">
                                                                           <asp:Button ID="CmdAddPart" runat="server" OnClick="CmdAddPart_Click" Text="เพิ่มรายการ " Width="100px" />
                                                                       </td>
@@ -2234,7 +2238,7 @@
                                                                           &nbsp;</td>
                                                                   </tr>
                                                                    <tr style="background-color: #F0F0F0">
-                                                                   <td colspan="2" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0; border-top-style: solid; border-top-width: 1px; border-top-color: #C0C0C0;">รายละเอียดงานซ่อม :</td>
+                                                                   <td colspan="2" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0; border-top-style: solid; border-top-width: 1px; border-top-color: #C0C0C0;">รายละเอียดงานซ่อม / ความเห็นช่าง :</td>
                                                                    <td style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0; border-top-style: solid; border-top-width: 1px; border-top-color: #C0C0C0;">&nbsp;</td>
                                                                   </tr>
 

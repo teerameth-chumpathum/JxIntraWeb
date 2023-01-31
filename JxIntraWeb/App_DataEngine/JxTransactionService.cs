@@ -879,13 +879,14 @@ namespace JxIntraWeb.App_DataEngine
                 //
                 foreach (DataRow DRow in RepairDSet.Tables["TBL_MN_COLLECTION3"].Rows)
                 {
-                    sqlQuery = "INSERT INTO MNT_ORDER_PART(MNT_ORD_NO,MNT_ORD_LINENO,MNT_LINENO_DESC,MNT_LINENO_AMT)      " +
-                               "                     VALUES(@MNT_ORD_NO,@MNT_ORD_LINENO,@MNT_LINENO_DESC,@MNT_LINENO_AMT) ";
+                    sqlQuery = "INSERT INTO MNT_ORDER_PART(MNT_ORD_NO,MNT_ORD_LINENO,MNT_LINENO_DESC,MNT_LINENO_AMT,MNT_PRICE)      " +
+                               "                     VALUES(@MNT_ORD_NO,@MNT_ORD_LINENO,@MNT_LINENO_DESC,@MNT_LINENO_AMT,@MNT_PRICE) ";
                     SqlCommand comInsert3 = new SqlCommand(sqlQuery, ObjConDB);
                     comInsert3.Parameters.AddWithValue("@MNT_ORD_NO", MNT_ORD_NO);
                     comInsert3.Parameters.AddWithValue("@MNT_ORD_LINENO", Convert.ToInt32(DRow["IDx"].ToString()));
                     comInsert3.Parameters.AddWithValue("@MNT_LINENO_DESC", DRow["MnDesc"].ToString());
                     comInsert3.Parameters.AddWithValue("@MNT_LINENO_AMT", Convert.ToInt32(DRow["MnAmt"]));
+                    comInsert3.Parameters.AddWithValue("@MNT_PRICE", Convert.ToDouble(DRow["MnPrice"])); //ADD 20230130
                     //
                     comInsert3.Transaction = T1;
                     comInsert3.ExecuteNonQuery();
@@ -1008,13 +1009,14 @@ namespace JxIntraWeb.App_DataEngine
                 //
                 foreach (DataRow DRow in RepairDSet.Tables["TBL_MN_COLLECTION3"].Rows)
                 {
-                    sqlQuery = "INSERT INTO MNT_ORDER_PART(MNT_ORD_NO,MNT_ORD_LINENO,MNT_LINENO_DESC,MNT_LINENO_AMT)      " +
-                               "                     VALUES(@MNT_ORD_NO,@MNT_ORD_LINENO,@MNT_LINENO_DESC,@MNT_LINENO_AMT) ";
+                    sqlQuery = "INSERT INTO MNT_ORDER_PART(MNT_ORD_NO,MNT_ORD_LINENO,MNT_LINENO_DESC,MNT_LINENO_AMT,MNT_PRICE)      " +
+                               "                     VALUES(@MNT_ORD_NO,@MNT_ORD_LINENO,@MNT_LINENO_DESC,@MNT_LINENO_AMT,@MNT_PRICE) ";
                     SqlCommand comInsert3 = new SqlCommand(sqlQuery, ObjConDB);
                     comInsert3.Parameters.AddWithValue("@MNT_ORD_NO", MNT_ORD_NO);
                     comInsert3.Parameters.AddWithValue("@MNT_ORD_LINENO", Convert.ToInt32(DRow["IDx"].ToString()));
                     comInsert3.Parameters.AddWithValue("@MNT_LINENO_DESC", DRow["MnDesc"].ToString());
                     comInsert3.Parameters.AddWithValue("@MNT_LINENO_AMT", Convert.ToInt32(DRow["MnAmt"]));
+                    comInsert3.Parameters.AddWithValue("@MNT_PRICE", Convert.ToDouble(DRow["MnPrice"]));    //ADD 20230131
                     //
                     comInsert3.Transaction = T1;
                     comInsert3.ExecuteNonQuery();
