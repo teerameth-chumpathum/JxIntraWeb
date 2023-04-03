@@ -3218,7 +3218,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>สำนักงานใหญ่ 1010 ถนนหลวงเพ่ง แขวงทับยาว เขตลาดกระบัง กรุงเทพมหานคร 10520 เลขประจำตัวผู้เสียภาษี 0105547099642</Value>
+                  <Value>สำนักงานใหญ่ 1010 ถนนหลวงเพ่ง แขวงทับยาว เขตลาดกระบัง กรุงเทพมหานคร 10520 เลขประจำตัวผู้เสียภาษี 010756000260</Value>
                   <Style>
                     <FontSize>8pt</FontSize>
                   </Style>
@@ -4428,11 +4428,14 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>ExecutionTime</rd:DefaultName>
-          <Top>2.23146cm</Top>
-          <Left>0.3175cm</Left>
+          <Top>2.58424cm</Top>
+          <Left>5.37394cm</Left>
           <Height>0.6cm</Height>
           <Width>4.68205cm</Width>
           <ZIndex>6</ZIndex>
+          <Visibility>
+            <Hidden>true</Hidden>
+          </Visibility>
           <Style>
             <Border>
               <Style>None</Style>
@@ -4460,8 +4463,8 @@
             </Paragraph>
           </Paragraphs>
           <rd:DefaultName>PageNumber</rd:DefaultName>
-          <Top>2.23146cm</Top>
-          <Left>5.20912cm</Left>
+          <Top>2.54896cm</Top>
+          <Left>0.3175cm</Left>
           <Height>0.6cm</Height>
           <Width>4.79715cm</Width>
           <ZIndex>7</ZIndex>
@@ -4469,7 +4472,7 @@
             <Border>
               <Style>None</Style>
             </Border>
-            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingLeft>8pt</PaddingLeft>
             <PaddingRight>2pt</PaddingRight>
             <PaddingTop>2pt</PaddingTop>
             <PaddingBottom>2pt</PaddingBottom>

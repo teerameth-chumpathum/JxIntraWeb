@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/> 
       <!-- Bootstrap Core CSS -->
         <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+        
         <link rel="stylesheet" href="/App_Content/w3.css"/>
         <style>
             /*.w3-theme {color:#fff !important;background-color:#002efb !important}*/
