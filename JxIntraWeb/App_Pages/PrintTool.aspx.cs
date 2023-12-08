@@ -18,6 +18,7 @@ namespace JxIntraWeb.App_Pages
             JxMasterService IncJxMasterServiceObj = new JxMasterService();
             DataSet1 incDataSet1Obj = new DataSet1();
             DataSet OrderDSet;
+            DataSet OrderDSet2;
             string REC_REF_NO = "";
             string OrderDate = "";
             int VEH_ASSET_ID = 0;
@@ -38,10 +39,14 @@ namespace JxIntraWeb.App_Pages
             string ORDER_DATE = "";
             string vage = "-";
             string vmiledge = "-";
+            //
+            string MNT_OWN_USR = "";
+
             try
             {
                 //ดึงข้อมูลจาก Database Server
                 OrderDSet = IncJxMasterServiceObj.GetOrderObjInfo(OrderNo, VehAssetID);
+                               
                 //
                 foreach (DataRow DRow in OrderDSet.Tables["TB_ORDER"].Rows)
                 {
@@ -67,6 +72,9 @@ namespace JxIntraWeb.App_Pages
                     //
                     vage = Convert.ToInt32(DRow["VEH_AGE"]).ToString("0"); ;
                     vmiledge = Convert.ToDecimal(DRow["ORD_VEH_MILEDGE"]).ToString("#,##0.00") ;
+                    //
+                    MNT_OWN_USR = DRow["MNT_OWN_USR"].ToString();
+
                 }           
                 //
                 DataRow newR_HD = incDataSet1Obj.Tables["DataTable1"].NewRow();
@@ -83,6 +91,7 @@ namespace JxIntraWeb.App_Pages
                 newR_HD["dc_req"] = DC_REQ;
                 newR_HD["order_no"] = ORDER_NO;
                 newR_HD["order_date"] = ORDER_DATE;
+                newR_HD["MNT_OWN_USR"] = MNT_OWN_USR;
                 incDataSet1Obj.Tables["DataTable1"].Rows.Add(newR_HD);
                 //
 
@@ -199,6 +208,30 @@ namespace JxIntraWeb.App_Pages
                     incDataSet1Obj.Tables["TB_ORDER_IMG"].Rows.Add(newR_T7);
                 }
                 //
+
+                //---------------------NEW--------------------------
+                var mnt_no_top = "";
+                foreach (DataRow data in OrderDSet.Tables["TB_HISTORY_TOP"].Rows)
+                {
+                    mnt_no_top = data["MNT_ORD_NO"].ToString();
+                }
+
+                OrderDSet2 = IncJxMasterServiceObj.GetLastHistory(mnt_no_top);
+                foreach (DataRow DRow in OrderDSet2.Tables["TB_LAST_HISTORY"].Rows)
+                {
+                    DataRow newr_lasth = incDataSet1Obj.Tables["dt_last_history"].NewRow();
+                    //newr_lasth["IRx"] = Convert.ToInt32(DRow["MNT_ORD_LINENO"]);
+                    //newr_lasth["Desc"] = DRow["MNT_LINENO_DESC"].ToString();
+                    //newr_lasth["Price"] = Convert.ToDecimal(DRow["MNT_LINENO_PRICE"]);
+                    //newr_lasth["Servicer"] = DRow["MNT_LINENO_SERVICER"].ToString();
+                    newr_lasth["JobId"] = DRow["MNT_ORD_NO"].ToString();
+                    newr_lasth["IRx"] = Convert.ToInt32(DRow["MNT_ORD_LINENO"]);
+                    newr_lasth["Desc"] = DRow["MNT_LINENO_DESC"].ToString();
+                    incDataSet1Obj.Tables["dt_last_history"].Rows.Add(newr_lasth);
+
+                }
+                //---------------------NEW--------------------------
+
             }
             catch (Exception ex)
             {
@@ -227,6 +260,7 @@ namespace JxIntraWeb.App_Pages
                 ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("Detail3", DSetReportSource.Tables["DataTable5"]));
                 ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DT_MNT_ORDER_DESCL2", DSetReportSource.Tables["TB_ORDER_DESC2"]));
                 ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DT_IMG", DSetReportSource.Tables["TB_ORDER_IMG"]));
+                ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DT_LAST_HISTORY", DSetReportSource.Tables["dt_last_history"]));
                 // 
                 ReportViewer1.DocumentMapCollapsed = true;
                 //ReportViewer1.SetDisplayMode(DisplayMode.PrintLayout);

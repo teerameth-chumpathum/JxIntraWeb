@@ -810,6 +810,21 @@
                                                        </td>
                                                        <td>&nbsp;</td>
                                                    </tr>
+                                            <tr>
+                                                <td>
+                                                    สาเหตุการซ่อม : 
+                                                <asp:CheckBoxList ID="cblAccident" runat="server" RepeatDirection="Horizontal">
+                                                    <asp:ListItem Text="อุบัติเหตุ" Value="1" onclick="MutExChkList(this);" />
+                                                    <asp:ListItem Text="เสื่อมสภาพ" Value="2" onclick="MutExChkList(this);" />
+                                                </asp:CheckBoxList>
+                                                    <%--<input type="checkbox" id="vehicle1" name="vehicle1" class="accident" value="1">--%>
+                                                    
+                                                    <%--<label for="vehicle1"> อุบัติเหตุ</label>--%>
+                                                    <%--<input type="checkbox" id="vehicle2" name="vehicle2" class="accident" value="2">--%>
+                                                    
+                                                    <%--<label for="vehicle2"> เสื่อมสภาพ</label>--%>
+                                                </td>
+                                            </tr>
                                                    <tr>
                                                        <td>หมายเหตุ (แผนกซ่อมบำรุง) :
                                                            <asp:TextBox ID="TxtMNHeadRem" runat="server" BorderStyle="None" class="w3-border-bottom" Font-Size="Small" ForeColor="Black" Height="19px" Text="-" type="text" Width="90%"></asp:TextBox>
@@ -846,6 +861,25 @@
                                                        
                            
                                     </div>
+                                  <script type="text/javascript">
+                                      $(document).ready(function () {
+                                          console.log("Hello World");
+                                          //$('#chkSource').click(function () {
+                                          //    $('#chkSource').not(this).prop('checked', false);
+                                          //});
+                                      })
+
+                                      function MutExChkList(chk) {
+                                          var chkList = chk.parentNode.parentNode.parentNode;
+                                          var chks = chkList.getElementsByTagName("input");
+                                          for (var i = 0; i < chks.length; i++) {
+                                              if (chks[i] != chk && chk.checked) {
+                                                  chks[i].checked = false;
+                                              }
+                                          }
+                                      }
+                                  </script>
+                                  
                                </asp:View>
                               <asp:View ID="View6x" runat="server">
                                   <div class="w3-container">
@@ -1440,6 +1474,7 @@
                               
                           
                                     </div>
+                                  
                                   <div class="w3-container">
                                       <table style="width:100%;">
                                               <tr >

@@ -91,6 +91,7 @@
     <Content Include="App_Images\HandleHand.png" />
     <Content Include="App_Images\messageImage_1620980590191.jpg" />
     <Content Include="App_Images\page_white_magnify.png" />
+    <Content Include="App_Images\qrgroup.jpg" />
     <Content Include="App_Images\tplogistics_logo.png" />
     <Content Include="App_Images\xls.png" />
     <Content Include="App_Pages\CR_MA_ORD.aspx" />
@@ -111,6 +112,11 @@
     <Content Include="js\holder.min.js" />
     <Content Include="js\ie10-viewport-bug-workaround.js" />
     <Content Include="js\jquery-1.11.3.min.js" />
+    <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.6.0.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.js" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -176,6 +182,9 @@
     <Compile Include="App_Pages\Welcome.aspx.designer.cs">
       <DependentUpon>Welcome.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App_Report\DataSet1.cs">
+      <DependentUpon>DataSet1.xsd</DependentUpon>
+    </Compile>
     <Compile Include="App_Report\DataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -221,6 +230,8 @@
     </Content>
     <None Include="packages.config" />
     <Content Include="Site.Master" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.6.0.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -233,8 +244,8 @@
     <Folder Include="Upload\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App_Report\Report2.rdlc" />
     <EmbeddedResource Include="App_Report\Report1.rdlc" />
+    <EmbeddedResource Include="App_Report\Report2.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

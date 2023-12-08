@@ -141,6 +141,26 @@ namespace JxIntraWeb.App_DataEngine
                     comInsert4.ExecuteNonQuery();
                 }
                 //
+                //-----------------------------------------------08-12-2023-Edit----------------------------------------
+                foreach (DataRow DRow in RepairDSet.Tables["TBL_MN_COLLECTION7"].Rows)
+                {
+                    sqlQuery = "INSERT INTO MNT_ORDER_COMMENT(MNT_ORD_NO,MNT_ORD_LINENO,DATE_NOTE,DESC_NOTE,MILEDGE_NOTE,PRICE_NOTE,SERVICER_NOTE)      " +
+                               "                     VALUES(@MNT_ORD_NO,@MNT_ORD_LINENO,@DATE_NOTE,@DESC_NOTE,@MILEDGE_NOTE,@PRICE_NOTE,@SERVICER_NOTE) ";
+                    SqlCommand comInsert5 = new SqlCommand(sqlQuery, ObjConDB);
+                    comInsert5.Parameters.AddWithValue("@MNT_ORD_NO", MNT_ORD_NO);
+                    comInsert5.Parameters.AddWithValue("@MNT_ORD_LINENO", Convert.ToInt32(DRow["IDx"].ToString()));
+                    comInsert5.Parameters.AddWithValue("@DATE_NOTE", DRow["DATE_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@DESC_NOTE", DRow["DESC_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@MILEDGE_NOTE", DRow["MILEDGE_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@PRICE_NOTE", DRow["PRICE_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@SERVICER_NOTE", DRow["SERVICER_NOTE"].ToString());
+                    //
+                    comInsert5.Transaction = T1;
+                    comInsert5.ExecuteNonQuery();
+                }
+                //-----------------------------------------------08-12-2023-Edit----------------------------------------
+
+
                 T1.Commit();
                 return "TRU:---";
             }
@@ -560,7 +580,45 @@ namespace JxIntraWeb.App_DataEngine
                 ObjConDB.Close();
             }
         }
-        public string ApproveOrderRequest(string MNT_ORD_NO, string MNT_OWN_USR, string OrderRecReferenceNo, string MNHeaderRem)
+
+        public string SaveForFirstPrint(string MNT_ORD_NO,int CAUSE_NO,string REMARK)
+        {
+            SqlConnection objConDB = new SqlConnection(JxDatabaseConfig.ScriptConnectAppDBase2);
+            if(objConDB.State == ConnectionState.Open)
+            {
+                objConDB.Close();
+            }
+            objConDB.Open();
+
+            SqlTransaction sqlTransaction = objConDB.BeginTransaction();
+
+            string sqlQuery = "";
+
+            try
+            {
+                sqlQuery = "UPDATE MNT_ORDER SET ORD_MTN_HEADER_REM=@ORD_MTN_HEADER_REM,CAUSE_NO=@CAUSE_NO WHERE MNT_ORD_NO=@MNT_ORD_NO  ";
+                SqlCommand cmd = new SqlCommand(sqlQuery, objConDB);
+                cmd.Parameters.AddWithValue("@MNT_ORD_NO", MNT_ORD_NO);
+                cmd.Parameters.AddWithValue("@ORD_MTN_HEADER_REM", REMARK);
+                cmd.Parameters.AddWithValue("@CAUSE_NO", CAUSE_NO);
+                cmd.Transaction = sqlTransaction;
+                cmd.ExecuteNonQuery();
+
+                sqlTransaction.Commit();
+                return "TRU:---";
+            }
+            catch (Exception ex)
+            {
+                sqlTransaction.Rollback();
+                return "ERR:" + ex.Message;
+            }
+            finally
+            {
+                objConDB.Close();
+            }
+        }
+
+        public string ApproveOrderRequest(string MNT_ORD_NO, string MNT_OWN_USR, string OrderRecReferenceNo, string MNHeaderRem,int CAUSE_NO)
         {
             //Record Reffrence No.
             if (IsOrderRecReferenceNoChanged(MNT_ORD_NO, OrderRecReferenceNo) == true) { return "ERR:ข้อมูลเปลี่ยนแปลงขณะที่ท่านเรียกดูข้อมูล!!"; }
@@ -577,11 +635,12 @@ namespace JxIntraWeb.App_DataEngine
             {
                 //ORD_DOC_STCODE='RO' AND ORD_APPR_STATE='PD'
                 sqlQuery = "UPDATE MNT_ORDER SET ORD_DOC_STCODE='AC',ORD_APPR_STATE='AC',ORD_CLOSE_STATE='IP'," +
-                           "       ORD_MTN_HEADER_REM=@ORD_MTN_HEADER_REM,REC_REF_NO=FORMAT(GETDATE(),'ddMMyyyyHHmmss') WHERE MNT_ORD_NO=@MNT_ORD_NO  ";
+                           "       ORD_MTN_HEADER_REM=@ORD_MTN_HEADER_REM,REC_REF_NO=FORMAT(GETDATE(),'ddMMyyyyHHmmss'),CAUSE_NO=@CAUSE_NO WHERE MNT_ORD_NO=@MNT_ORD_NO  ";
 
                 SqlCommand comInsertDoc1 = new SqlCommand(sqlQuery, ObjConDB);
                 comInsertDoc1.Parameters.AddWithValue("@MNT_ORD_NO", MNT_ORD_NO);
                 comInsertDoc1.Parameters.AddWithValue("@ORD_MTN_HEADER_REM", MNHeaderRem);
+                comInsertDoc1.Parameters.AddWithValue("@CAUSE_NO", CAUSE_NO);
                 comInsertDoc1.Transaction = T1;
                 comInsertDoc1.ExecuteNonQuery();
                 //
@@ -606,6 +665,9 @@ namespace JxIntraWeb.App_DataEngine
                 ObjConDB.Close();
             }
         }
+
+        
+
         public string RollBackOrderRequest(string MNT_ORD_NO, string MNT_OWN_USR, string OrderRecReferenceNo)
         {
             //Record Reffrence No.

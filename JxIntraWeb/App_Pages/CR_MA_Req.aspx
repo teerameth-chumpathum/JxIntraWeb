@@ -84,6 +84,11 @@
                                                     <HeaderStyle BackColor="#F0F0F0" BorderWidth="1px" Font-Bold="False" Font-Size="Small" BorderColor="#CCCCCC" />
                                                     <ItemStyle Font-Size="Small" HorizontalAlign="Left" VerticalAlign="Top" BorderColor="#CCCCCC" />
                                                     </asp:BoundField>
+                                                    <%--------------------------NEW------------------------------%>
+                                                    <asp:BoundField DataField="VEH_ASSET_ID" HeaderText="ทดสอบ">
+                                                                                 
+                                                                                 </asp:BoundField>
+                                                    <%----------------------------NEW----------------------------%>
                                                     <asp:BoundField DataField="MNT_TYPE">
                                                     <HeaderStyle BackColor="#F0F0F0" Font-Bold="False" Font-Size="Small" BorderColor="#CCCCCC" />
                                                     <ItemStyle Font-Bold="False" Font-Italic="False" Font-Size="Small" HorizontalAlign="Center" VerticalAlign="Top" BorderColor="#CCCCCC" />
@@ -176,6 +181,11 @@
                                                                               <HeaderStyle BackColor="#F0F0F0" Font-Bold="False" Font-Size="Small" HorizontalAlign="Center" />
                                                                               <ItemStyle Font-Size="Small" BorderColor="#CCCCCC" HorizontalAlign="Left" VerticalAlign="Top" />
                                                                               </asp:BoundField>
+                                                    <%--------------------------NEW------------------------------%>
+                                                    <asp:BoundField DataField="VEH_ASSET_ID" HeaderText="ทดสอบ">
+                                                                                 
+                                                                                 </asp:BoundField>
+                                                    <%----------------------------NEW----------------------------%>
                                                                               <asp:BoundField DataField="MNT_TYPE">
                                                                              <HeaderStyle Font-Bold="False" Font-Size="Small" BackColor="#F0F0F0" BorderColor="#CCCCCC" BorderWidth="1px" HorizontalAlign="Center" />
                                                                               <ItemStyle Font-Size="Small" BorderColor="#CCCCCC" HorizontalAlign="Center" VerticalAlign="Top" />
@@ -263,6 +273,11 @@
                                                                               <HeaderStyle BackColor="#F0F0F0" Font-Bold="False" Font-Size="Small" HorizontalAlign="Center" />
                                                                               <ItemStyle Font-Size="Small" BorderColor="#CCCCCC" HorizontalAlign="Left" VerticalAlign="Top" />
                                                                               </asp:BoundField>
+                                                    <%--------------------------NEW------------------------------%>
+                                                    <asp:BoundField DataField="VEH_ASSET_ID" HeaderText="ทดสอบ">
+                                                                                 
+                                                                                 </asp:BoundField>
+                                                    <%----------------------------NEW----------------------------%>
                                                                               <asp:BoundField DataField="MNT_TYPE">
                                                                              <HeaderStyle Font-Bold="False" Font-Size="Small" BackColor="#F0F0F0" BorderColor="#CCCCCC" BorderWidth="1px" HorizontalAlign="Center" />
                                                                               <ItemStyle Font-Size="Small" BorderColor="#CCCCCC" HorizontalAlign="Center" VerticalAlign="Top" />
@@ -434,6 +449,11 @@
                                                                               <HeaderStyle BackColor="#F0F0F0" Font-Bold="False" Font-Size="Small" HorizontalAlign="Center" />
                                                                               <ItemStyle Font-Size="Small" BorderColor="#CCCCCC" HorizontalAlign="Left" VerticalAlign="Top" />
                                                                               </asp:BoundField>
+                                                    <%--------------------------NEW------------------------------%>
+                                                    <asp:BoundField DataField="VEH_ASSET_ID" HeaderText="ทดสอบ">
+                                                                                 
+                                                                                 </asp:BoundField>
+                                                    <%----------------------------NEW----------------------------%>
                                                                               <asp:BoundField DataField="MNT_TYPE">
                                                                              <HeaderStyle Font-Bold="False" Font-Size="Small" BackColor="#F0F0F0" BorderColor="#CCCCCC" BorderWidth="1px" HorizontalAlign="Center" />
                                                                               <ItemStyle Font-Size="Small" BorderColor="#CCCCCC" HorizontalAlign="Center" VerticalAlign="Top" />
@@ -834,16 +854,77 @@
                                                        </td>
                                                        <td>&nbsp;</td>
                                                    </tr>
+
+
+                                            <tr>
+                                                <td>ทดสอบ Smile</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <asp:GridView ID="gridviewComment" runat="server" AutoGenerateColumns="False">
+                                                        <Columns>
+                                                            <asp:ButtonField ButtonType="Button" CommandName="Select" Text="ลบ">
+                                                <HeaderStyle Width="35px" />
+                                                <ItemStyle Font-Size="Small" />
+                                                </asp:ButtonField>
+
+                                                    <asp:TemplateField HeaderText="ลำดับ">
+                                                    <ItemTemplate>
+                                                        <%# Container.DataItemIndex + 1 %>
+                                                    </ItemTemplate>
+                                                    <HeaderStyle Font-Bold="False" Font-Size="Small" Width="35px" />
+                                                    <ItemStyle Font-Size="Small" ForeColor="Black" HorizontalAlign="Center" />
+                                                </asp:TemplateField>
+
+
+                                                <asp:BoundField DataField="IDx" Visible="False" />
+                                                <asp:TemplateField HeaderText="วันที่ซ่อม">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="TxtDATE_NOTE" runat="server" Text='<%# Bind("DATE_NOTE") %>' Width="90px"></asp:TextBox>
+                                                    </ItemTemplate>
+                                                    <HeaderStyle Font-Bold="False" Font-Size="Smaller" Width="80px" />
+                                                    <ItemStyle Font-Size="Small" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="รายละเอียด">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="TxtDESC_NOTE" runat="server" Text='<%# Bind("DESC_NOTE") %>' Width="100%"></asp:TextBox>
+                                                    </ItemTemplate>
+                                                    <HeaderStyle Font-Bold="False" Font-Size="Small" Width="100%" />
+                                                    <ItemStyle Font-Size="Small" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="เลขไมล์">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="TxtMILEDGE_NOTE" runat="server" Text='<%# Bind("MILEDGE_NOTE") %>' Width="80px"></asp:TextBox>
+                                                    </ItemTemplate>
+                                                    <HeaderStyle Font-Bold="False" Font-Size="Smaller" Width="80px" />
+                                                    <ItemStyle Font-Size="Small" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="ราคาซ่อม">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="TxtPRICE_NOTE" runat="server" Text='<%# Bind("PRICE_NOTE") %>' Width="70px" style="text-align:right;" ></asp:TextBox>
+                                                    </ItemTemplate>
+                                                    <HeaderStyle Font-Bold="False" Font-Size="Small" HorizontalAlign="Right" Width="80px" />
+                                                    <ItemStyle Font-Size="Small" HorizontalAlign="Right" />
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="ผู้บริการ">
+                                                    <ItemTemplate>
+                                                        <asp:TextBox ID="TxtSERVICER_NOTE" runat="server" Text='<%# Bind("SERVICER_NOTE") %>' Width="150px"></asp:TextBox>
+                                                    </ItemTemplate>
+                                                    <HeaderStyle Font-Bold="False" Font-Size="Small" />
+                                                    <ItemStyle Font-Size="Small" />
+                                                </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                </td>
+                                            </tr>
+
+
                                                                      <tr>
                                                        <td colspan="2" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0; text-align: right">
                                                            <asp:Button ID="CmdDetail" runat="server" OnClick="CmdDetail_Click" Text="เพิ่มรายการ " Width="100px" />
                                                                          </td>
                                                        <td style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0;">&nbsp;</td>
                                                    </tr>
-
-
-
-
 
 
                                                    <tr style="background-color: #F0F0F0">
@@ -913,8 +994,7 @@
                                                        </td>
                                                        <td style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0;">&nbsp;</td>
                                                    </tr>
-
-
+                                   
 
                                                    <tr>
                                                        <td colspan="2">พนักงานขับรถ&nbsp;&nbsp; :<asp:TextBox ID="TxtDrvName" runat="server" BorderStyle="None" class="w3-border-bottom" Font-Size="Small" Height="19px" MaxLength="150" Text="-" type="text"></asp:TextBox>

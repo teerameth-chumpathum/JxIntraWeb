@@ -10,6 +10,12 @@
         <link rel="stylesheet" href="/css/bootstrap.min.css"/>
         
         <link rel="stylesheet" href="/App_Content/w3.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                console.log("Hello World");
+            })
+        </script>
         <style>
             /*.w3-theme {color:#fff !important;background-color:#002efb !important}*/
             .w3-theme {color:#fff !important;background-color:#4CAF50 !important}
@@ -20,6 +26,7 @@
                 height: 33px;
             }
         </style>
+        
 </head>
 <body>
     <form id="form1" runat="server">
@@ -50,11 +57,8 @@
                     </div>
                     <div class="col-sm-4">
                        <div class="w3-container w3-white w3-cell">
-                          <p><strong>ระบัญชีชื่อและรหัสผ่าน</strong></p>
-                          <ul>
-                              <li>หากไม่สามารภเข้าระบบได้ ติดต่อ แผนก IT Support 081-4587858</li>
-                              <li>หากไม่มีบัญชีผู้ใช้ ติดต่อ แผนก IT เพื่อลงทะเบียนเปิดบัญชีชื่อผู้ใช้ก่อน</li>
-                         </ul>
+                          <p><strong>สแกน QR Code ด้านล่าง เพื่อติดต่อกับแผนก IT</strong></p>
+                          <img src="../App_Images/qrgroup.jpg" width="100" height="100" />
                     </div>
                     </div>
                     <div class="col-sm-3">

@@ -430,9 +430,11 @@ namespace JxIntraWeb.App_DataEngine
                 string strsqlQuery4 = "SELECT *  FROM MNT_ORDER_PRICE        WHERE MNT_ORD_NO=@MNT_ORD_NO ORDER BY MNT_ORD_LINENO";
                 string strsqlQuery5 = "SELECT *  FROM MNT_ORDER_PART         WHERE MNT_ORD_NO=@MNT_ORD_NO ORDER BY MNT_ORD_LINENO";
                 string strsqlQuery6 = "SELECT *  FROM MNT_ORDER_DESCL2       WHERE MNT_ORD_NO=@MNT_ORD_NO ORDER BY MNT_ORD_LINENO";
-                string strsqlQuery7 = "SELECT *  FROM JxView_RepairOrderInfo WHERE (VEH_ASSET_ID=@VEH_ASSET_ID AND ORD_DOC_STCODE='AC' AND ORD_APPR_STATE='AC' AND (ORD_CLOSE_STATE='SC' OR ORD_CLOSE_STATE='NC')) ORDER BY MNT_ORD_DATE ASC ";
+                string strsqlQuery7 = "SELECT *  FROM JxView_RepairOrderInfo WHERE (VEH_ASSET_ID=@VEH_ASSET_ID AND ORD_DOC_STCODE='AC' AND ORD_APPR_STATE='AC' AND (ORD_CLOSE_STATE='SC' OR ORD_CLOSE_STATE='NC')) ORDER BY MNT_ORD_DATE DESC ";
                 string strsqlQuery8 = "SELECT *  FROM MNT_ORDER_COMMENT      WHERE MNT_ORD_NO=@MNT_ORD_NO ORDER BY MNT_ORD_LINENO";
                 string strsqlQuery9 = "SELECT *  FROM MNT_ORDER_IMG          WHERE MNT_ORD_NO=@MNT_ORD_NO ";
+                string strsqlQuery10 = "SELECT TOP(1) *  FROM JxView_RepairOrderInfo WHERE (VEH_ASSET_ID=@VEH_ASSET_ID AND ORD_DOC_STCODE='AC' AND ORD_APPR_STATE='AC' AND (ORD_CLOSE_STATE='SC' OR ORD_CLOSE_STATE='NC')) ORDER BY MNT_ORD_DATE DESC ";
+
                 //
                 SqlCommand comDBX1 = new SqlCommand(strsqlQuery1, ObjConDB);
                 comDBX1.Parameters.AddWithValue("@MNT_ORD_NO", OrderNo);
@@ -488,6 +490,14 @@ namespace JxIntraWeb.App_DataEngine
                 DataTable dt9 = new DataTable("TB_IMAGE");
                 dt9.Load(dr9);
                 //
+                //----------------------new-------------------------
+                SqlCommand comDBX10 = new SqlCommand(strsqlQuery10, ObjConDB);
+                comDBX10.Parameters.AddWithValue("@VEH_ASSET_ID", VehAssetID);
+                SqlDataReader dr10 = comDBX10.ExecuteReader();
+                DataTable dt10 = new DataTable("TB_HISTORY_TOP");
+                dt10.Load(dr10);
+                //----------------------new-------------------------
+
                 DataSet DSet = new DataSet();
                 DSet.Tables.Add(dt1.Copy());
                 DSet.Tables.Add(dt2.Copy());
@@ -498,6 +508,7 @@ namespace JxIntraWeb.App_DataEngine
                 DSet.Tables.Add(dt7.Copy());
                 DSet.Tables.Add(dt8.Copy());
                 DSet.Tables.Add(dt9.Copy());
+                DSet.Tables.Add(dt10.Copy());
                 // Close Data Reader
                 dr1.Close();
                 dr2.Close();
@@ -508,6 +519,7 @@ namespace JxIntraWeb.App_DataEngine
                 dr7.Close();
                 dr8.Close();
                 dr9.Close();
+                dr10.Close();
                 // ------------------------------------------------------
                 return DSet;
             }
@@ -818,6 +830,38 @@ namespace JxIntraWeb.App_DataEngine
             finally
             {
                 objConDB.Close();
+            }
+        }
+
+        public DataSet GetLastHistory(string OrderNo)
+        {
+            SqlConnection ObjConDB = new SqlConnection(JxDatabaseConfig.ScriptConnectAppDBase2);
+            try
+            {
+                if (ObjConDB.State == System.Data.ConnectionState.Open) { ObjConDB.Close(); }
+                ObjConDB.Open();
+                string strsqlQuery1 = "SELECT *  FROM MNT_ORDER_DESC      WHERE MNT_ORD_NO=@MNT_ORD_NO";
+                //
+                SqlCommand comDBX1 = new SqlCommand(strsqlQuery1, ObjConDB);
+                comDBX1.Parameters.AddWithValue("@MNT_ORD_NO", OrderNo);
+                SqlDataReader dr1 = comDBX1.ExecuteReader();
+                DataTable dt1 = new DataTable("TB_LAST_HISTORY");
+                dt1.Load(dr1);
+                //
+                DataSet DSet = new DataSet();
+                DSet.Tables.Add(dt1.Copy());
+                // Close Data Reader
+                dr1.Close();
+                // ------------------------------------------------------
+                return DSet;
+            }
+            catch (SqlException)
+            {
+                return default;
+            }
+            finally
+            {
+                ObjConDB.Close();
             }
         }
     }

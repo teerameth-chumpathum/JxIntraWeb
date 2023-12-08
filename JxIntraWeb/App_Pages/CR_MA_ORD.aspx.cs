@@ -256,6 +256,8 @@ namespace JxIntraWeb.App_Pages
                 RdoPM0.Enabled = false;
             }
         }
+
+        //OPEN DETAILS ปุ่มแจ้งซ่อมใหม่
         private void ImprementOrderData(string OrderNo, int VEH_ASSET_IDRef)
         {
             JxMasterService IncJxMasterServiceObj = new JxMasterService();
@@ -278,6 +280,9 @@ namespace JxIntraWeb.App_Pages
             int VEH_AGE = 0;
             float ORD_VEH_MILEDGE = 0f;
             string MNT_TYPE = "";
+            int CAUSE_NO = 0;
+            string REMARK = "";
+            
             try
             {
                 //ดึงข้อมูลจาก Database Server
@@ -304,6 +309,9 @@ namespace JxIntraWeb.App_Pages
                     VEH_AGE = Convert.ToInt32(DRow["VEH_AGE"]);
                     ORD_VEH_MILEDGE = float.Parse(DRow["ORD_VEH_MILEDGE"].ToString());
                     MNT_TYPE = DRow["MNT_TYPE"].ToString();
+                    CAUSE_NO = Convert.ToInt32(DRow["CAUSE_NO"]);
+                    REMARK = DRow["ORD_MTN_HEADER_REM"].ToString();
+                    
                 }
                 //
                 if (MNT_TYPE.ToUpper().Trim() == "PM")
@@ -326,6 +334,13 @@ namespace JxIntraWeb.App_Pages
                 TxtGarageContact.Text = GARAGE_CONTACT + " " + GARAGE_TEL;
                 TxtVehMiledge.Text = ORD_VEH_MILEDGE.ToString("#,##0.00");
                 TxtVehAge.Text = VEH_AGE.ToString("#,##0");
+
+                //var a = cblAccident.Items.FindByValue(CAUSE_NO.ToString());
+                if(CAUSE_NO > 0)
+                {
+                    cblAccident.SelectedValue = CAUSE_NO.ToString();
+                }
+                TxtMNHeadRem.Text = REMARK;
                 //
                 GlobalDataPattern incGlobalDataPatternObj = new GlobalDataPattern();
                 MaintainTbl = incGlobalDataPatternObj.CreateDataTableMaintainCollection();
@@ -1368,12 +1383,23 @@ namespace JxIntraWeb.App_Pages
                 string OrderRecReferenceNo = HideRecRefNo.Value.ToString();
                 string USR_FNAME = "";
                 string MN_HEADER_REM = TxtMNHeadRem.Text.Trim();
+                int CAUSE_NO = 0;
+                List<string> accident = cblAccident.Items.Cast<ListItem>().Where(x => x.Selected).Select(z=>z.Value).ToList();
+                if(accident.Count > 0)
+                {
+                    foreach (var item in accident)
+                    {
+                        CAUSE_NO = Convert.ToInt32(item);
+                    }
+                }
+                
+                
                 var master = Master as Site;
                 if (master != null)
                 {
                     USR_FNAME = master.GetUserProfileData("USER_FNAME");
                 }
-                ProcRet = IncJxTransactionServiceObj.ApproveOrderRequest(MNT_ORD_NO, USR_FNAME, OrderRecReferenceNo, MN_HEADER_REM);
+                ProcRet = IncJxTransactionServiceObj.ApproveOrderRequest(MNT_ORD_NO, USR_FNAME, OrderRecReferenceNo, MN_HEADER_REM,CAUSE_NO);
                 if (ProcRet.ToUpper().Substring(0, 2) == "TR")
                 {
                     Response.Write("<script>alert('อนุมัติซ่อม: เรียบร้อย!!');</script>");
@@ -1667,7 +1693,7 @@ namespace JxIntraWeb.App_Pages
             //
             string Operate_Result = "";
             string OrderRecordNo = "";
-
+            //string test = txtaRemarkNew.InnerText;
 
                 //แก้ไขเอกสาร
                 Operate_Result = SaveRepairOrder(false);
@@ -2385,10 +2411,32 @@ namespace JxIntraWeb.App_Pages
 
         protected void CmdPrintX1_Click(object sender, EventArgs e)
         {
-            Session["PRINT_VEHID"] = HideVehID.Value.ToString();
-            Session["PRINT_DOCNO"] = TxtOrderNo.Text.Trim();
-            Session["PRINT_TYPE"] = "2";
-            Server.Transfer("PrintTool2.aspx");
+            JxTransactionService IncJxTransactionServiceObj = new JxTransactionService();
+            string MNT_ORD_NO = TxtOrderNo.Text.Trim();
+            string MN_HEADER_REM = TxtMNHeadRem.Text.Trim();
+            int CAUSE_NO = 0;
+            List<string> accident = cblAccident.Items.Cast<ListItem>().Where(x => x.Selected).Select(z => z.Value).ToList();
+            if (accident.Count > 0)
+            {
+                foreach (var item in accident)
+                {
+                    CAUSE_NO = Convert.ToInt32(item);
+                }
+            }
+            string ProcRet = "ERR:";
+            ProcRet = IncJxTransactionServiceObj.SaveForFirstPrint(MNT_ORD_NO,CAUSE_NO, MN_HEADER_REM);
+
+            if (ProcRet.ToUpper().Substring(0, 2) == "TR")
+            {
+                Session["PRINT_VEHID"] = HideVehID.Value.ToString();
+                Session["PRINT_DOCNO"] = TxtOrderNo.Text.Trim();
+                Session["PRINT_TYPE"] = "2";
+                Server.Transfer("PrintTool2.aspx");
+            }
+            else
+            {
+                Response.Write("<script>alert('เกิดข้อผิดพลาดไม่สามารถทำรายการที่เลือกได้: " + ProcRet.Replace("ERR:", "") + "');</script>");
+            }
         }
 
         protected void CmdAdjOrder_Click(object sender, EventArgs e)

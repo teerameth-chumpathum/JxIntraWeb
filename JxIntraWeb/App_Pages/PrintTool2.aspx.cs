@@ -39,6 +39,14 @@ namespace JxIntraWeb.App_Pages
             string ORDER_DATE = "";
             string vage = "-";
             string vmiledge = "-";
+
+            //
+            string CAUSE_NO = "";
+            string REMARK = "";
+            string CAUSE_NAME = "";
+            string MNT_OWN_USRID = "";
+            string MNT_OWN_USR = "";
+
             try
             {
                 //ดึงข้อมูลจาก Database Server
@@ -68,6 +76,13 @@ namespace JxIntraWeb.App_Pages
                     //
                     vage = Convert.ToInt32(DRow["VEH_AGE"]).ToString("0"); ;
                     vmiledge = Convert.ToDecimal(DRow["ORD_VEH_MILEDGE"]).ToString("#,##0.00");
+                    //
+                    CAUSE_NO = Convert.ToInt32(DRow["CAUSE_NO"]).ToString();
+                    REMARK = DRow["ORD_MTN_HEADER_REM"].ToString();
+                    CAUSE_NAME = DRow["CAUSE_NAME"].ToString();
+                    MNT_OWN_USRID = DRow["MNT_OWN_USRID"].ToString();
+                    MNT_OWN_USR = DRow["MNT_OWN_USR"].ToString();
+
                 }
                 //
                 DataRow newR_HD = incDataSet1Obj.Tables["DataTable1"].NewRow();
@@ -84,6 +99,13 @@ namespace JxIntraWeb.App_Pages
                 newR_HD["dc_req"] = DC_REQ;
                 newR_HD["order_no"] = ORDER_NO;
                 newR_HD["order_date"] = ORDER_DATE;
+                newR_HD["ORD_MTN_HEADER_REM"] = REMARK;
+                //
+                newR_HD["cause_no"] = CAUSE_NO;
+                newR_HD["CAUSE_NAME"] = CAUSE_NAME;
+                newR_HD["MNT_OWN_USRID"] = MNT_OWN_USRID;
+                newR_HD["MNT_OWN_USR"] = MNT_OWN_USR;
+
                 incDataSet1Obj.Tables["DataTable1"].Rows.Add(newR_HD);
                 //
 

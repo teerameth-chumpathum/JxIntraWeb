@@ -19,6 +19,8 @@ namespace JxIntraWeb.App_Pages
         public DataTable MaintainTblWheel;
         //
         public DataTable MaintainTbl4;
+        public DataTable MainHistory;
+        public DataTable MaintainTbl7;
         //
         private void CommandControl(bool ShowRollBackDoc,bool ShowDeleteDoc,bool ShowSaveDoc,bool ShowConfirmDoc)
         {
@@ -835,6 +837,46 @@ namespace JxIntraWeb.App_Pages
             }
             Session["MaintainTbl4"] = MaintainTbl4;
             //
+
+            //------------------------------------------12-08-2023-Edit--------------------------------------------------
+
+
+            //MaintainTbl7 = (DataTable)Session["MaintainTbl7"];
+            //string DATE_NOTE = "";
+            //string DESC_NOTE = "";
+            //string MILEDGE_NOTE = "0.00";
+            //string PRICE_NOTE = "0.00";
+            //string SERVICER_NOTE = "---";
+            //if (GrdVehDeptComment.Rows.Count > 0)
+            //{
+            //    for (int IRow = 0; IRow < GrdVehDeptComment.Rows.Count; IRow++)
+            //    {
+            //        IDx = GrdVehDeptComment.DataKeys[IRow].Value.ToString();
+            //        DATE_NOTE = ((TextBox)GrdVehDeptComment.Rows[IRow].FindControl("TxtDATE_NOTE")).Text.Trim();
+            //        DESC_NOTE = ((TextBox)GrdVehDeptComment.Rows[IRow].FindControl("TxtDESC_NOTE")).Text.Trim();
+            //        MILEDGE_NOTE = ((TextBox)GrdVehDeptComment.Rows[IRow].FindControl("TxtMILEDGE_NOTE")).Text.Trim();
+            //        PRICE_NOTE = ((TextBox)GrdVehDeptComment.Rows[IRow].FindControl("TxtPRICE_NOTE")).Text.Trim();
+            //        SERVICER_NOTE = ((TextBox)GrdVehDeptComment.Rows[IRow].FindControl("TxtSERVICER_NOTE")).Text.Trim();
+            //        //
+            //        foreach (DataRow dr in MaintainTbl7.Rows)
+            //        {
+            //            if (dr["IDx"].ToString() == IDx)
+            //            {
+            //                dr["DATE_NOTE"] = DATE_NOTE;
+            //                dr["DESC_NOTE"] = DESC_NOTE;
+            //                dr["MILEDGE_NOTE"] = MILEDGE_NOTE;
+            //                dr["PRICE_NOTE"] = PRICE_NOTE;
+            //                dr["SERVICER_NOTE"] = SERVICER_NOTE;
+            //                break;
+            //            }
+            //        }
+            //    }
+            //}
+            //MaintainTbl7.AcceptChanges();
+            //Session["MaintainTbl7"] = MaintainTbl7;
+
+            ////------------------------------------------12-08-2023-Edit--------------------------------------------------
+
             // Validate
             if (MaintainTbl.Rows.Count == 0) { return "ERR:ข้อมูลรายการขอซ่อมไม่ถูกต้อง!!"; }
             //
@@ -845,6 +887,7 @@ namespace JxIntraWeb.App_Pages
             DSet.Tables.Add(MaintainTbl.Copy());
             DSet.Tables.Add(MaintainTblWheel.Copy());
             DSet.Tables.Add(MaintainTbl4.Copy());
+            DSet.Tables.Add(MaintainTbl7.Copy());
             //DSet.Tables.Add(MaintainTbl2.Copy());
             //
             int USR_ID=0;
@@ -1149,10 +1192,11 @@ namespace JxIntraWeb.App_Pages
             //
             SetSumarizeCounter();
         }
-        protected void CmdAct1_Click(object sender, EventArgs e)
+        protected void CmdAct1_Click(object sender, EventArgs e) //เอกสารใหม่
         {
             SetSumarizeCounter();
             //
+            
             string MNT_OWN_SITECODE = "";
             string MNT_OWN_SITENAME = "";
             var master = Master as Site;
@@ -1226,6 +1270,15 @@ namespace JxIntraWeb.App_Pages
             MaintainTbl4.TableName = "TBL_M4_COLLECTION";
             Session["MaintainTbl4"] = MaintainTbl4;
             //
+            //------------------------08-12-2023-------------------------------------------------------
+           
+
+            incGlobalDataPatternObj.AddDataToTableMaintainCommentCollection("--", "--", "--", "--", "--", MaintainTbl7);
+            MaintainTbl7.AcceptChanges();
+
+            Session["MaintainTbl7"] = MaintainTbl7;
+
+            //------------------------08-12-2023-------------------------------------------------------
             TxtOrderDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
             TxtOrderNo.Text = GetRepairOrderNo();
             MaintainTblWheel = incGlobalDataPatternObj.CreateDataTableMaintainWheelCollection();
@@ -1255,6 +1308,12 @@ namespace JxIntraWeb.App_Pages
             withBlock4.DataSource = MaintainTbl4;
             withBlock4.DataBind();
             withBlock4.AutoGenerateColumns = false;
+            //
+            //
+            var withBlock7 = gridviewComment;
+            withBlock7.DataSource = MaintainTbl7;
+            withBlock7.DataBind();
+            withBlock7.AutoGenerateColumns = false;
             //
             SetComponantInitialState();
             SetDocumentEditableMode();
@@ -1611,6 +1670,7 @@ namespace JxIntraWeb.App_Pages
                 GlobalDataPattern incGlobalDataPatternObj = new GlobalDataPattern();
                 MaintainTbl = incGlobalDataPatternObj.CreateDataTableMaintainCollection();
                 MaintainTblWheel = incGlobalDataPatternObj.CreateDataTableMaintainWheelCollection();
+                MaintainTbl7 = incGlobalDataPatternObj.CreateDataTableMaintainCommentCollection();
 
                 foreach (DataRow DRow in OrderDSet.Tables["TB_ORDER_DESC"].Rows)
                 {
@@ -1635,6 +1695,17 @@ namespace JxIntraWeb.App_Pages
                 withBlock4.DataSource = Session["MaintainTbl4"];
                 withBlock4.DataBind();
                 withBlock4.AutoGenerateColumns = false;
+                ////----------------------------------------NEW--------------------------------------------------------
+                //MainHistory = OrderDSet.Tables["TB_HISTRY"];
+
+                //var withBlock6 = GridView1;
+                //withBlock6.DataSource = MainHistory;
+                //withBlock6.DataBind();
+                //withBlock6.AutoGenerateColumns = false;
+
+               
+                ////----------------------------------------NEW--------------------------------------------------------
+
                 //
                 string MNT_WHL_POS = "";
                 string MNT_REQ_REASON = "";
@@ -1685,6 +1756,9 @@ namespace JxIntraWeb.App_Pages
                 withBlockx.DataSource = MaintainTblWheel;
                 withBlockx.DataBind();
                 withBlockx.AutoGenerateColumns = false;
+
+                
+
                 //
                 //
                 //ModeOperate=CRT | EDT
@@ -1764,12 +1838,20 @@ namespace JxIntraWeb.App_Pages
                 throw new Exception((ex.Response as FtpWebResponse).StatusDescription);
             }
         }
+        //----------------------------NEW---------------------------------------------
+
+
         protected void GrdRepairOrderAct0_SelectedIndexChanged(object sender, EventArgs e)
         {
             string OrderNo = GrdRepairOrderAct0.DataKeys[GrdRepairOrderAct0.SelectedRow.RowIndex]["MNT_ORD_NO"].ToString();
+            GridViewRow RowGet = GrdRepairOrderAct0.SelectedRow;
+            int VEH_ASSET_ID = Convert.ToInt32(GrdRepairOrderAct0.SelectedRow.Cells[GetColumnIndexByName(RowGet, "VEH_ASSET_ID")].Text);
+            
+            
             //T1.Text = OrderNo;
             TxtMNHeadRem.Visible = false;
-            ImprementOrderData(OrderNo);
+            //ImprementOrderData(OrderNo);
+            ImprementOrderData2(OrderNo, VEH_ASSET_ID);
             ImprementOrderImage(OrderNo);
             SetDocumentEditableMode();
             CommandControl(false, true, true, true);
@@ -1777,9 +1859,12 @@ namespace JxIntraWeb.App_Pages
         protected void GrdRepairOrderAct1_SelectedIndexChanged(object sender, EventArgs e)
         {
             string OrderNo = GrdRepairOrderAct1.DataKeys[GrdRepairOrderAct1.SelectedRow.RowIndex]["MNT_ORD_NO"].ToString();
+            GridViewRow RowGet = GrdRepairOrderAct1.SelectedRow;
+            int VEH_ASSET_ID = Convert.ToInt32(GrdRepairOrderAct1.SelectedRow.Cells[GetColumnIndexByName(RowGet, "VEH_ASSET_ID")].Text);
             //T2.Text = OrderNo
             TxtMNHeadRem.Visible = false;
-            ImprementOrderData(OrderNo);
+            //ImprementOrderData(OrderNo);
+            ImprementOrderData2(OrderNo, VEH_ASSET_ID);
             ImprementOrderImage(OrderNo);
             SetDocumentViewOnlyMode();
             CommandControl(true,false,false,false);
@@ -1787,9 +1872,12 @@ namespace JxIntraWeb.App_Pages
         protected void GrdRepairOrderAct2_SelectedIndexChanged(object sender, EventArgs e)
         {
             string OrderNo = GrdRepairOrderAct2.DataKeys[GrdRepairOrderAct2.SelectedRow.RowIndex]["MNT_ORD_NO"].ToString();
+            GridViewRow RowGet = GrdRepairOrderAct2.SelectedRow;
+            int VEH_ASSET_ID = Convert.ToInt32(GrdRepairOrderAct2.SelectedRow.Cells[GetColumnIndexByName(RowGet, "VEH_ASSET_ID")].Text);
             //T2.Text = OrderNo;
             TxtMNHeadRem.Visible = true;
-            ImprementOrderData(OrderNo);
+            //ImprementOrderData(OrderNo);
+            ImprementOrderData2(OrderNo, VEH_ASSET_ID);
             ImprementOrderImage(OrderNo);
             SetDocumentViewOnlyMode();
             CommandControl(true, false, false, false);
@@ -1797,9 +1885,12 @@ namespace JxIntraWeb.App_Pages
         protected void GrdRepairOrderAct3_SelectedIndexChanged(object sender, EventArgs e)
         {
             string OrderNo = GrdRepairOrderAct3.DataKeys[GrdRepairOrderAct3.SelectedRow.RowIndex]["MNT_ORD_NO"].ToString();
+            GridViewRow RowGet = GrdRepairOrderAct3.SelectedRow;
+            int VEH_ASSET_ID = Convert.ToInt32(GrdRepairOrderAct3.SelectedRow.Cells[GetColumnIndexByName(RowGet, "VEH_ASSET_ID")].Text);
             //T2.Text = OrderNo;
             TxtMNHeadRem.Visible = true;
-            ImprementOrderData(OrderNo);
+            //ImprementOrderData(OrderNo);
+            ImprementOrderData2(OrderNo, VEH_ASSET_ID);
             ImprementOrderImage(OrderNo);
             SetDocumentViewOnlyMode();
             CommandControl(false, false, false, false);
@@ -1807,9 +1898,12 @@ namespace JxIntraWeb.App_Pages
         protected void GrdRepairOrderAct4_SelectedIndexChanged(object sender, EventArgs e)
         {
             string OrderNo = GrdRepairOrderAct4.DataKeys[GrdRepairOrderAct4.SelectedRow.RowIndex]["MNT_ORD_NO"].ToString();
+            GridViewRow RowGet = GrdRepairOrderAct4.SelectedRow;
+            int VEH_ASSET_ID = Convert.ToInt32(GrdRepairOrderAct4.SelectedRow.Cells[GetColumnIndexByName(RowGet, "VEH_ASSET_ID")].Text);
             //T2.Text = OrderNo;
             TxtMNHeadRem.Visible = true;
-            ImprementOrderData(OrderNo);
+            //ImprementOrderData(OrderNo);
+            ImprementOrderData2(OrderNo, VEH_ASSET_ID);
             ImprementOrderImage(OrderNo);
             SetDocumentViewOnlyMode();
             CommandControl(false, false, false, false);
@@ -1882,9 +1976,12 @@ namespace JxIntraWeb.App_Pages
         protected void GrdRepairOrderAct6_SelectedIndexChanged(object sender, EventArgs e)
         {
             string OrderNo = GrdRepairOrderAct6.DataKeys[GrdRepairOrderAct6.SelectedRow.RowIndex]["MNT_ORD_NO"].ToString();
+            GridViewRow RowGet = GrdRepairOrderAct6.SelectedRow;
+            int VEH_ASSET_ID = Convert.ToInt32(GrdRepairOrderAct6.SelectedRow.Cells[GetColumnIndexByName(RowGet, "VEH_ASSET_ID")].Text);
             //T2.Text = OrderNo;
             TxtMNHeadRem.Visible = true;
-            ImprementOrderData(OrderNo);
+            //ImprementOrderData(OrderNo);
+            ImprementOrderData2(OrderNo, VEH_ASSET_ID);
             ImprementOrderImage(OrderNo);
             SetDocumentViewOnlyMode();
             CommandControl(false, false, false, false);
@@ -2312,7 +2409,194 @@ namespace JxIntraWeb.App_Pages
             //base.VerifyRenderingInServerForm(control);
         }
 
-        
+        protected void gridviewHistory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void ImprementOrderData2(string OrderNo,int Grid_VA_ID)
+        {
+            JxMasterService IncJxMasterServiceObj = new JxMasterService();
+            DataSet OrderDSet;
+            string REC_REF_NO = "";
+            string OrderDate = "";
+            int VEH_ASSET_ID = Grid_VA_ID;
+            string VEH_CODE = "";
+            string VEH_LICENSE = "";
+            string VEH_TYPE = "";
+            string VEH_BRAND = "";
+            string VEH_MODEL = "";
+            string VEH_FUEL_SPEC = "";
+            //
+            int SERVICE_GARAGE_ID = 0;
+            string GARAGE_NAME = "";
+            string GARAGE_ADDR = "";
+            string GARAGE_CONTACT = "";
+            string GARAGE_TEL = "";
+            string SITE_DRIVER_NAME = "";
+            string SITE_EMP_NAME = "";
+            string ORD_MTN_HEADER_REM = "";
+            int VEH_AGE = 0;
+            float ORD_VEH_MILEDGE = 0f;
+            string MNT_TYPE = "";
+            try
+            {
+                //ดึงข้อมูลจาก Database Server
+                OrderDSet = IncJxMasterServiceObj.GetOrderObjInfo(OrderNo, VEH_ASSET_ID);
+
+                //
+                foreach (DataRow DRow in OrderDSet.Tables["TB_ORDER"].Rows)
+                {
+                    REC_REF_NO = DRow["REC_REF_NO"].ToString();
+                    OrderDate = Convert.ToDateTime(DRow["MNT_ORD_DATE"]).ToString("dd/MM/yyyy");
+                    VEH_ASSET_ID = Convert.ToInt32(DRow["VEH_ASSET_ID"]);
+                    VEH_CODE = DRow["VEH_CODE"].ToString();
+                    VEH_LICENSE = DRow["VEH_LICENSE"].ToString();
+                    //VEH_TYPE = DRow["VEH_ASSET_ID"].ToString();
+                    VEH_TYPE = DRow["VEH_TYPE"].ToString();
+                    VEH_BRAND = DRow["VEH_BRAND"].ToString();
+                    VEH_MODEL = DRow["VEH_MODEL"].ToString();
+                    VEH_FUEL_SPEC = DRow["VEH_FUEL_SPEC"].ToString();
+                    //
+                    SERVICE_GARAGE_ID = Convert.ToInt32(DRow["SERVICE_GARAGE_ID"]);
+                    GARAGE_NAME = DRow["GARAGE_NAME"].ToString();
+                    GARAGE_ADDR = DRow["GARAGE_ADDR"].ToString();
+                    GARAGE_CONTACT = DRow["GARAGE_CONTACT"].ToString();
+                    GARAGE_TEL = DRow["GARAGE_TEL"].ToString();
+                    //
+                    SITE_DRIVER_NAME = DRow["SITE_DRIVER_NAME"].ToString();
+                    SITE_EMP_NAME = DRow["SITE_EMP_NAME"].ToString();
+                    ORD_MTN_HEADER_REM = DRow["ORD_MTN_HEADER_REM"].ToString();
+                    VEH_AGE = Convert.ToInt32(DRow["VEH_AGE"]);
+                    ORD_VEH_MILEDGE = float.Parse(DRow["ORD_VEH_MILEDGE"].ToString());
+                    MNT_TYPE = DRow["MNT_TYPE"].ToString();
+                }
+                HideRecRefNo.Value = REC_REF_NO;
+                TxtOrderNo.Text = OrderNo;
+                TxtOrderDate.Text = OrderDate;
+                HideVehID.Value = VEH_ASSET_ID.ToString();
+                TxtVehCode.Text = VEH_CODE;
+                TxtVehLicense.Text = VEH_LICENSE;
+                TxtVehType.Text = VEH_TYPE;
+                TxtVehModel.Text = VEH_MODEL;
+                TxtVehFuel.Text = VEH_FUEL_SPEC;
+                //
+                HideGarageID.Value = SERVICE_GARAGE_ID.ToString();
+                TxtGarageName.Text = GARAGE_NAME;
+                TxtGarageAddr.Text = GARAGE_ADDR;
+                TxtGarageContact.Text = GARAGE_CONTACT + " " + GARAGE_TEL;
+                //
+                TxtDrvName.Text = SITE_DRIVER_NAME;
+                TxtSiteEmpName.Text = SITE_EMP_NAME;
+                TxtMNHeadRem.Text = ORD_MTN_HEADER_REM;
+                //
+                TxtVehMiledge.Text = ORD_VEH_MILEDGE.ToString("#,##0.00");
+                TxtVehAge.Text = VEH_AGE.ToString("#,##0");
+                //
+                if (MNT_TYPE.ToUpper().Trim() == "PM")
+                { RdoPM.Checked = true; RdoCR.Checked = false; }
+                else { RdoPM.Checked = false; RdoCR.Checked = true; }
+                //
+                GlobalDataPattern incGlobalDataPatternObj = new GlobalDataPattern();
+                MaintainTbl = incGlobalDataPatternObj.CreateDataTableMaintainCollection();
+                MaintainTblWheel = incGlobalDataPatternObj.CreateDataTableMaintainWheelCollection();
+
+                foreach (DataRow DRow in OrderDSet.Tables["TB_ORDER_DESC"].Rows)
+                {
+                    incGlobalDataPatternObj.AddDataToTableMaintainCollection(DRow["MNT_LINENO_DESC"].ToString(), MaintainTbl);
+                }
+                Session["MaintainTbl"] = MaintainTbl;
+                //
+                var withBlock = GrdRepairDesc;
+                withBlock.DataSource = MaintainTbl;
+                withBlock.DataBind();
+                withBlock.AutoGenerateColumns = false;
+                //
+                MaintainTbl4 = incGlobalDataPatternObj.CreateDataTableMaintainL2Collection();
+                MaintainTbl4.TableName = "TBL_M4_COLLECTION";
+                foreach (DataRow DRow in OrderDSet.Tables["TB_ORDER_DESC2"].Rows)
+                {
+                    incGlobalDataPatternObj.AddDataToTableMaintainL2Collection(DRow["MNT_LINENO_DESC"].ToString(), MaintainTbl4);
+                }
+                MaintainTbl4.AcceptChanges();
+                Session["MaintainTbl4"] = MaintainTbl4;
+                var withBlock4 = GrdRepairDetail;
+                withBlock4.DataSource = Session["MaintainTbl4"];
+                withBlock4.DataBind();
+                withBlock4.AutoGenerateColumns = false;
+                //------------------------------------------------------------------------------------------------
+                //MainHistory = OrderDSet.Tables["TB_HISTRY"];
+
+                //var withBlock6 = GridView1;
+                //withBlock6.DataSource = MainHistory;
+                //withBlock6.DataBind();
+                //withBlock6.AutoGenerateColumns = false;
+
+                
+                //------------------------------------------------------------------------------------------------
+
+                //
+                string MNT_WHL_POS = "";
+                string MNT_REQ_REASON = "";
+                bool WHL_DAMAGE_AREA1 = false;
+                bool WHL_DAMAGE_AREA2 = false;
+                bool WHL_DAMAGE_AREA3 = false;
+                bool WHL_DAMAGE_AREA4 = false;
+                //
+                bool WHL_DAMAGE_TYPE1 = false;
+                bool WHL_DAMAGE_TYPE2 = false;
+                bool WHL_DAMAGE_TYPE3 = false;
+                bool WHL_DAMAGE_TYPE4 = false;
+                //
+                string WHL_DAMAGE_OTH = "";
+                string WHL_DAMAGE_TYPEOTH = "";
+                //
+                string WHL_SERIAL = "";
+                string WHL_R_MILE = "";
+                string WHL_SIZE = "";
+
+                foreach (DataRow DRow in OrderDSet.Tables["TB_ORDER_WHLL"].Rows)
+                {
+                    MNT_WHL_POS = DRow["MNT_WHL_POS"].ToString();
+                    MNT_REQ_REASON = DRow["MNT_REQ_REASON"].ToString();
+                    //
+                    WHL_DAMAGE_AREA1 = (bool)DRow["WHL_DAMAGE_AREA1"];
+                    WHL_DAMAGE_AREA2 = (bool)DRow["WHL_DAMAGE_AREA2"];
+                    WHL_DAMAGE_AREA3 = (bool)DRow["WHL_DAMAGE_AREA3"];
+                    WHL_DAMAGE_AREA4 = (bool)DRow["WHL_DAMAGE_AREA4"];
+                    //
+                    WHL_DAMAGE_TYPE1 = (bool)DRow["WHL_DAMAGE_TYPE1"];
+                    WHL_DAMAGE_TYPE2 = (bool)DRow["WHL_DAMAGE_TYPE2"];
+                    WHL_DAMAGE_TYPE3 = (bool)DRow["WHL_DAMAGE_TYPE3"];
+                    WHL_DAMAGE_TYPE4 = (bool)DRow["WHL_DAMAGE_TYPE4"];
+                    //
+                    WHL_DAMAGE_OTH = DRow["WHL_DAMAGE_OTH"].ToString();
+                    WHL_DAMAGE_TYPEOTH = DRow["WHL_DAMAGE_TYPEOTH"].ToString();
+                    //
+                    WHL_SERIAL = DRow["WHL_SERIAL"].ToString();
+                    WHL_R_MILE = DRow["WHL_R_MILE"].ToString();
+                    WHL_SIZE = DRow["WHL_SIZE"].ToString();
+                    //
+                    incGlobalDataPatternObj.AddDataToTableMaintainWheelCollection(MNT_WHL_POS, MNT_REQ_REASON, WHL_DAMAGE_AREA1, WHL_DAMAGE_AREA2, WHL_DAMAGE_AREA3, WHL_DAMAGE_AREA4,
+                                                                      WHL_DAMAGE_TYPE1, WHL_DAMAGE_TYPE2, WHL_DAMAGE_TYPE3, WHL_DAMAGE_TYPE4, WHL_DAMAGE_OTH, WHL_DAMAGE_TYPEOTH, WHL_SERIAL, WHL_R_MILE, WHL_SIZE, MaintainTblWheel);
+                }
+                Session["MaintainTblWheel"] = MaintainTblWheel;
+                var withBlockx = GrdWheelPos;
+                withBlockx.DataSource = MaintainTblWheel;
+                withBlockx.DataBind();
+                withBlockx.AutoGenerateColumns = false;
+                //
+                //
+                //ModeOperate=CRT | EDT
+                HideModeOperate.Value = "EDT";
+                MultiView1.ActiveViewIndex = 5;
+
+            }
+            catch
+            {
+                MultiView1.ActiveViewIndex = 7;
+            }
+        }
 
         //Export Grid To Excel End
 
