@@ -297,6 +297,33 @@ namespace JxIntraWeb.App_DataEngine
                     comInsert4.ExecuteNonQuery();
                 }
                 //
+
+                //-----------------------------------------------09-12-2023-Edit----------------------------------------
+                sqlQuery = "DELETE FROM MNT_ORDER_COMMENT WHERE MNT_ORD_NO=@MNT_ORD_NO ";
+                SqlCommand comDelDoc6 = new SqlCommand(sqlQuery, ObjConDB);
+                comDelDoc6.Parameters.AddWithValue("@MNT_ORD_NO", MNT_ORD_NO);
+                comDelDoc6.Transaction = T1;
+                comDelDoc6.ExecuteNonQuery();
+
+                foreach (DataRow DRow in RepairDSet.Tables["TBL_MN_COLLECTION7"].Rows)
+                {
+                    sqlQuery = "INSERT INTO MNT_ORDER_COMMENT(MNT_ORD_NO,MNT_ORD_LINENO,DATE_NOTE,DESC_NOTE,MILEDGE_NOTE,PRICE_NOTE,SERVICER_NOTE)      " +
+                               "                     VALUES(@MNT_ORD_NO,@MNT_ORD_LINENO,@DATE_NOTE,@DESC_NOTE,@MILEDGE_NOTE,@PRICE_NOTE,@SERVICER_NOTE) ";
+                    SqlCommand comInsert5 = new SqlCommand(sqlQuery, ObjConDB);
+                    comInsert5.Parameters.AddWithValue("@MNT_ORD_NO", MNT_ORD_NO);
+                    comInsert5.Parameters.AddWithValue("@MNT_ORD_LINENO", Convert.ToInt32(DRow["IDx"].ToString()));
+                    comInsert5.Parameters.AddWithValue("@DATE_NOTE", DRow["DATE_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@DESC_NOTE", DRow["DESC_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@MILEDGE_NOTE", DRow["MILEDGE_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@PRICE_NOTE", DRow["PRICE_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@SERVICER_NOTE", DRow["SERVICER_NOTE"].ToString());
+                    //
+                    comInsert5.Transaction = T1;
+                    comInsert5.ExecuteNonQuery();
+                }
+                //-----------------------------------------------09-12-2023-Edit----------------------------------------
+
+
                 T1.Commit();
                 return "TRU:---";
             }
@@ -433,6 +460,33 @@ namespace JxIntraWeb.App_DataEngine
                     comInsert4.ExecuteNonQuery();
                 }
                 //
+
+                //-----------------------------------------------09-12-2023-Edit----------------------------------------
+                sqlQuery = "DELETE FROM MNT_ORDER_COMMENT WHERE MNT_ORD_NO=@MNT_ORD_NO ";
+                SqlCommand comDelDoc6 = new SqlCommand(sqlQuery, ObjConDB);
+                comDelDoc6.Parameters.AddWithValue("@MNT_ORD_NO", MNT_ORD_NO);
+                comDelDoc6.Transaction = T1;
+                comDelDoc6.ExecuteNonQuery();
+
+                foreach (DataRow DRow in RepairDSet.Tables["TBL_MN_COLLECTION7"].Rows)
+                {
+                    sqlQuery = "INSERT INTO MNT_ORDER_COMMENT(MNT_ORD_NO,MNT_ORD_LINENO,DATE_NOTE,DESC_NOTE,MILEDGE_NOTE,PRICE_NOTE,SERVICER_NOTE)      " +
+                               "                     VALUES(@MNT_ORD_NO,@MNT_ORD_LINENO,@DATE_NOTE,@DESC_NOTE,@MILEDGE_NOTE,@PRICE_NOTE,@SERVICER_NOTE) ";
+                    SqlCommand comInsert5 = new SqlCommand(sqlQuery, ObjConDB);
+                    comInsert5.Parameters.AddWithValue("@MNT_ORD_NO", MNT_ORD_NO);
+                    comInsert5.Parameters.AddWithValue("@MNT_ORD_LINENO", Convert.ToInt32(DRow["IDx"].ToString()));
+                    comInsert5.Parameters.AddWithValue("@DATE_NOTE", DRow["DATE_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@DESC_NOTE", DRow["DESC_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@MILEDGE_NOTE", DRow["MILEDGE_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@PRICE_NOTE", DRow["PRICE_NOTE"].ToString());
+                    comInsert5.Parameters.AddWithValue("@SERVICER_NOTE", DRow["SERVICER_NOTE"].ToString());
+                    //
+                    comInsert5.Transaction = T1;
+                    comInsert5.ExecuteNonQuery();
+                }
+                //-----------------------------------------------09-12-2023-Edit----------------------------------------
+
+
                 T1.Commit();
                 return "TRU:---";
             }

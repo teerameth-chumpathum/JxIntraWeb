@@ -841,39 +841,39 @@ namespace JxIntraWeb.App_Pages
             //------------------------------------------12-08-2023-Edit--------------------------------------------------
 
 
-            //MaintainTbl7 = (DataTable)Session["MaintainTbl7"];
-            //string DATE_NOTE = "";
-            //string DESC_NOTE = "";
-            //string MILEDGE_NOTE = "0.00";
-            //string PRICE_NOTE = "0.00";
-            //string SERVICER_NOTE = "---";
-            //if (GrdVehDeptComment.Rows.Count > 0)
-            //{
-            //    for (int IRow = 0; IRow < GrdVehDeptComment.Rows.Count; IRow++)
-            //    {
-            //        IDx = GrdVehDeptComment.DataKeys[IRow].Value.ToString();
-            //        DATE_NOTE = ((TextBox)GrdVehDeptComment.Rows[IRow].FindControl("TxtDATE_NOTE")).Text.Trim();
-            //        DESC_NOTE = ((TextBox)GrdVehDeptComment.Rows[IRow].FindControl("TxtDESC_NOTE")).Text.Trim();
-            //        MILEDGE_NOTE = ((TextBox)GrdVehDeptComment.Rows[IRow].FindControl("TxtMILEDGE_NOTE")).Text.Trim();
-            //        PRICE_NOTE = ((TextBox)GrdVehDeptComment.Rows[IRow].FindControl("TxtPRICE_NOTE")).Text.Trim();
-            //        SERVICER_NOTE = ((TextBox)GrdVehDeptComment.Rows[IRow].FindControl("TxtSERVICER_NOTE")).Text.Trim();
-            //        //
-            //        foreach (DataRow dr in MaintainTbl7.Rows)
-            //        {
-            //            if (dr["IDx"].ToString() == IDx)
-            //            {
-            //                dr["DATE_NOTE"] = DATE_NOTE;
-            //                dr["DESC_NOTE"] = DESC_NOTE;
-            //                dr["MILEDGE_NOTE"] = MILEDGE_NOTE;
-            //                dr["PRICE_NOTE"] = PRICE_NOTE;
-            //                dr["SERVICER_NOTE"] = SERVICER_NOTE;
-            //                break;
-            //            }
-            //        }
-            //    }
-            //}
-            //MaintainTbl7.AcceptChanges();
-            //Session["MaintainTbl7"] = MaintainTbl7;
+            MaintainTbl7 = (DataTable)Session["MaintainTbl7"];
+            string DATE_NOTE = "";
+            string DESC_NOTE = "";
+            string MILEDGE_NOTE = "0.00";
+            string PRICE_NOTE = "0.00";
+            string SERVICER_NOTE = "---";
+            if (gridviewComment.Rows.Count > 0)
+            {
+                for (int IRow = 0; IRow < gridviewComment.Rows.Count; IRow++)
+                {
+                    IDx = gridviewComment.DataKeys[IRow].Value.ToString();
+                    DATE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtDATE_NOTE")).Text.Trim();
+                    DESC_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtDESC_NOTE")).Text.Trim();
+                    MILEDGE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtMILEDGE_NOTE")).Text.Trim();
+                    PRICE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtPRICE_NOTE")).Text.Trim();
+                    SERVICER_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtSERVICER_NOTE")).Text.Trim();
+                    //
+                    foreach (DataRow dr in MaintainTbl7.Rows)
+                    {
+                        if (dr["IDx"].ToString() == IDx)
+                        {
+                            dr["DATE_NOTE"] = DATE_NOTE;
+                            dr["DESC_NOTE"] = DESC_NOTE;
+                            dr["MILEDGE_NOTE"] = MILEDGE_NOTE;
+                            dr["PRICE_NOTE"] = PRICE_NOTE;
+                            dr["SERVICER_NOTE"] = SERVICER_NOTE;
+                            break;
+                        }
+                    }
+                }
+            }
+            MaintainTbl7.AcceptChanges();
+            Session["MaintainTbl7"] = MaintainTbl7;
 
             ////------------------------------------------12-08-2023-Edit--------------------------------------------------
 
@@ -1089,6 +1089,46 @@ namespace JxIntraWeb.App_Pages
             }
             Session["MaintainTbl4"] = MaintainTbl4;
             //
+
+            //------------------------------------------09-12-2023-Edit--------------------------------------------------
+
+
+            MaintainTbl7 = (DataTable)Session["MaintainTbl7"];
+            string DATE_NOTE = "";
+            string DESC_NOTE = "";
+            string MILEDGE_NOTE = "0.00";
+            string PRICE_NOTE = "0.00";
+            string SERVICER_NOTE = "---";
+            if (gridviewComment.Rows.Count > 0)
+            {
+                for (int IRow = 0; IRow < gridviewComment.Rows.Count; IRow++)
+                {
+                    IDx = gridviewComment.DataKeys[IRow].Value.ToString();
+                    DATE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtDATE_NOTE")).Text.Trim();
+                    DESC_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtDESC_NOTE")).Text.Trim();
+                    MILEDGE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtMILEDGE_NOTE")).Text.Trim();
+                    PRICE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtPRICE_NOTE")).Text.Trim();
+                    SERVICER_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtSERVICER_NOTE")).Text.Trim();
+                    //
+                    foreach (DataRow dr in MaintainTbl7.Rows)
+                    {
+                        if (dr["IDx"].ToString() == IDx)
+                        {
+                            dr["DATE_NOTE"] = DATE_NOTE;
+                            dr["DESC_NOTE"] = DESC_NOTE;
+                            dr["MILEDGE_NOTE"] = MILEDGE_NOTE;
+                            dr["PRICE_NOTE"] = PRICE_NOTE;
+                            dr["SERVICER_NOTE"] = SERVICER_NOTE;
+                            break;
+                        }
+                    }
+                }
+            }
+            MaintainTbl7.AcceptChanges();
+            Session["MaintainTbl7"] = MaintainTbl7;
+
+            //------------------------------------------09-12-2023-Edit--------------------------------------------------
+
             //Validate
             if (MaintainTbl.Rows.Count == 0) { return "ERR:ข้อมูลรายการซ่อมไม่ถูกต้อง!!"; }
             //
@@ -1099,6 +1139,7 @@ namespace JxIntraWeb.App_Pages
             DSet.Tables.Add(MaintainTbl.Copy());
             DSet.Tables.Add(MaintainTblWheel.Copy());
             DSet.Tables.Add(MaintainTbl4.Copy());
+            DSet.Tables.Add(MaintainTbl7.Copy());
             //
             int USR_ID = 0;
             string USR_FNAME = "";
@@ -1271,11 +1312,12 @@ namespace JxIntraWeb.App_Pages
             Session["MaintainTbl4"] = MaintainTbl4;
             //
             //------------------------08-12-2023-------------------------------------------------------
-           
 
+
+            MaintainTbl7 = incGlobalDataPatternObj.CreateDataTableMaintainCommentCollection();
             incGlobalDataPatternObj.AddDataToTableMaintainCommentCollection("--", "--", "--", "--", "--", MaintainTbl7);
             MaintainTbl7.AcceptChanges();
-
+            MaintainTbl7.TableName = "TBL_MN_COLLECTION7";
             Session["MaintainTbl7"] = MaintainTbl7;
 
             //------------------------08-12-2023-------------------------------------------------------
@@ -2525,14 +2567,20 @@ namespace JxIntraWeb.App_Pages
                 withBlock4.DataBind();
                 withBlock4.AutoGenerateColumns = false;
                 //------------------------------------------------------------------------------------------------
-                //MainHistory = OrderDSet.Tables["TB_HISTRY"];
+                MaintainTbl7 = incGlobalDataPatternObj.CreateDataTableMaintainCommentCollection();
+                MaintainTbl7.TableName = "TBL_MN_COLLECTION7";
 
-                //var withBlock6 = GridView1;
-                //withBlock6.DataSource = MainHistory;
-                //withBlock6.DataBind();
-                //withBlock6.AutoGenerateColumns = false;
+                foreach (DataRow DRow in OrderDSet.Tables["TB_COMMENT"].Rows)
+                {
+                    incGlobalDataPatternObj.AddDataToTableMaintainCommentCollection(DRow["DATE_NOTE"].ToString(), DRow["DESC_NOTE"].ToString(), DRow["MILEDGE_NOTE"].ToString(), DRow["PRICE_NOTE"].ToString(), DRow["SERVICER_NOTE"].ToString(), MaintainTbl7);
+                }
+                Session["MaintainTbl7"] = MaintainTbl7;
 
-                
+                var withBlock3x = gridviewComment;
+                withBlock3x.DataSource = MaintainTbl7;
+                withBlock3x.DataBind();
+                withBlock3x.AutoGenerateColumns = false;
+
                 //------------------------------------------------------------------------------------------------
 
                 //
@@ -2596,6 +2644,60 @@ namespace JxIntraWeb.App_Pages
             {
                 MultiView1.ActiveViewIndex = 7;
             }
+        }
+
+        protected void CmdAddDesc_Click(object sender, EventArgs e)
+        {
+            string IDx = "";
+            string DATE_NOTE = "";
+            string DESC_NOTE = "";
+            string MILEDGE_NOTE = "0.00";
+            string PRICE_NOTE = "0.00";
+            string SERVICER_NOTE = "---";
+
+
+            MaintainTbl7 = (DataTable)Session["MaintainTbl7"];
+            GlobalDataPattern incGlobalDataPatternObj = new GlobalDataPattern();
+            //
+            if (gridviewComment.Rows.Count > 0)
+            {
+                for (int IRow = 0; IRow < gridviewComment.Rows.Count; IRow++)
+                {
+                    IDx = gridviewComment.DataKeys[IRow].Value.ToString();
+                    DATE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtDATE_NOTE")).Text.Trim();
+                    DESC_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtDESC_NOTE")).Text.Trim();
+                    MILEDGE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtMILEDGE_NOTE")).Text.Trim();
+                    PRICE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtPRICE_NOTE")).Text.Trim();
+                    SERVICER_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtSERVICER_NOTE")).Text.Trim();
+                    //
+                    foreach (DataRow dr in MaintainTbl7.Rows)
+                    {
+                        if (dr["IDx"].ToString() == IDx)
+                        {
+                            dr["DATE_NOTE"] = DATE_NOTE;
+                            dr["DESC_NOTE"] = DESC_NOTE;
+                            dr["MILEDGE_NOTE"] = MILEDGE_NOTE;
+                            dr["PRICE_NOTE"] = PRICE_NOTE;
+                            dr["SERVICER_NOTE"] = SERVICER_NOTE;
+                            break;
+                        }
+                    }
+                }
+                //
+                incGlobalDataPatternObj.AddDataToTableMaintainCommentCollection("--", "--", "--", "--", "--", MaintainTbl7);
+                MaintainTbl7.AcceptChanges();
+            }
+            else
+            {
+                incGlobalDataPatternObj.AddDataToTableMaintainCommentCollection("--", "--", "--", "--", "--", MaintainTbl7);
+                MaintainTbl7.AcceptChanges();
+            }
+            Session["MaintainTbl7"] = MaintainTbl7;
+            //
+            var withBlock = gridviewComment;
+            withBlock.DataSource = MaintainTbl7;
+            withBlock.DataBind();
+            withBlock.AutoGenerateColumns = false;
         }
 
         //Export Grid To Excel End

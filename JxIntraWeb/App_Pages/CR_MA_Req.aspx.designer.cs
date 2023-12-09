@@ -555,6 +555,15 @@ namespace JxIntraWeb.App_Pages
         protected global::System.Web.UI.WebControls.GridView GrdRepairDetail;
 
         /// <summary>
+        /// CmdDetail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button CmdDetail;
+
+        /// <summary>
         /// gridviewComment control.
         /// </summary>
         /// <remarks>
@@ -564,13 +573,13 @@ namespace JxIntraWeb.App_Pages
         protected global::System.Web.UI.WebControls.GridView gridviewComment;
 
         /// <summary>
-        /// CmdDetail control.
+        /// CmdAddDesc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button CmdDetail;
+        protected global::System.Web.UI.WebControls.Button CmdAddDesc;
 
         /// <summary>
         /// GrdPartOrder control.

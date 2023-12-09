@@ -859,9 +859,20 @@
                                             <tr>
                                                 <td>ทดสอบ Smile</td>
                                             </tr>
+                                            
+
+
+                                                                     <tr>
+                                                       <td colspan="2" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0; text-align: right">
+                                                           <asp:Button ID="CmdDetail" runat="server" OnClick="CmdDetail_Click" Text="เพิ่มรายการ " Width="100px" />
+                                                                         </td>
+                                                       <td style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0;">&nbsp;</td>
+                                                   </tr>
+
+                                            <%--------------------------------09-12-2023-New-----------------------------%>
                                             <tr>
                                                 <td>
-                                                    <asp:GridView ID="gridviewComment" runat="server" AutoGenerateColumns="False">
+                                                    <asp:GridView ID="gridviewComment" runat="server" AutoGenerateColumns="False" DataKeyNames="IDx">
                                                         <Columns>
                                                             <asp:ButtonField ButtonType="Button" CommandName="Select" Text="ลบ">
                                                 <HeaderStyle Width="35px" />
@@ -918,14 +929,15 @@
                                                 </td>
                                             </tr>
 
-
-                                                                     <tr>
-                                                       <td colspan="2" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0; text-align: right">
-                                                           <asp:Button ID="CmdDetail" runat="server" OnClick="CmdDetail_Click" Text="เพิ่มรายการ " Width="100px" />
-                                                                         </td>
-                                                       <td style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0;">&nbsp;</td>
-                                                   </tr>
-
+                                            
+                                            <tr>
+                                                <td>&nbsp;</td>
+                                                <td>&nbsp;</td>
+                                                <td style="text-align:right;">
+                                                    <asp:Button ID="CmdAddDesc" runat="server"  Text="เพิ่มรายการ " Width="100px" OnClick="CmdAddDesc_Click" />
+                                                </td>
+                                            </tr>
+                                            <%--------------------------------09-12-2023-New-----------------------------%>
 
                                                    <tr style="background-color: #F0F0F0">
                                                        <td colspan="2" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0; border-top-style: solid; border-top-width: 1px; border-top-color: #C0C0C0; ">รายการสั่งซื้ออะไหล่ :(ยังไม่เปิดใช้)</td>
