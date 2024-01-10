@@ -856,9 +856,7 @@
                                                    </tr>
 
 
-                                            <tr>
-                                                <td>ทดสอบ Smile</td>
-                                            </tr>
+                                            
                                             
 
 
@@ -870,9 +868,14 @@
                                                    </tr>
 
                                             <%--------------------------------09-12-2023-New-----------------------------%>
+                                            <tr style="background-color: #F0F0F0">
+                                                                   <td colspan="2" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0; border-top-style: solid; border-top-width: 1px; border-top-color: #C0C0C0;">ประวัติการซ่อม :</td>
+                                                                   <td style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #C0C0C0; border-top-style: solid; border-top-width: 1px; border-top-color: #C0C0C0;">&nbsp;</td>
+                                                                  </tr>
+                                                          
                                             <tr>
                                                 <td>
-                                                    <asp:GridView ID="gridviewComment" runat="server" AutoGenerateColumns="False" DataKeyNames="IDx">
+                                                    <asp:GridView ID="gridviewComment" runat="server" AutoGenerateColumns="False" DataKeyNames="IDx" OnSelectedIndexChanged="gridviewComment_SelectedIndexChanged">
                                                         <Columns>
                                                             <asp:ButtonField ButtonType="Button" CommandName="Select" Text="ลบ">
                                                 <HeaderStyle Width="35px" />

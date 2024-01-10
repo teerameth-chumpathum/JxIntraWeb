@@ -2700,6 +2700,61 @@ namespace JxIntraWeb.App_Pages
             withBlock.AutoGenerateColumns = false;
         }
 
+        protected void gridviewComment_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string IDx_Del = gridviewComment.DataKeys[gridviewComment.SelectedRow.RowIndex]["IDx"].ToString();
+            MaintainTbl7 = (DataTable)Session["MaintainTbl7"];
+            GlobalDataPattern incGlobalDataPatternObj = new GlobalDataPattern();
+            //
+            //Update Session Datatable
+            if (gridviewComment.Rows.Count > 0)
+            {
+                string IDx = "";
+                string DATE_NOTE = "";
+                string DESC_NOTE = "";
+                string MILEDGE_NOTE = "0.00";
+                string PRICE_NOTE = "0.00";
+                string SERVICER_NOTE = "---";
+                //
+                for (int IRow = 0; IRow < gridviewComment.Rows.Count; IRow++)
+                {
+                    IDx = gridviewComment.DataKeys[IRow].Value.ToString();
+                    DATE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtDATE_NOTE")).Text.Trim();
+                    DESC_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtDESC_NOTE")).Text.Trim();
+                    MILEDGE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtMILEDGE_NOTE")).Text.Trim();
+                    PRICE_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtPRICE_NOTE")).Text.Trim();
+                    SERVICER_NOTE = ((TextBox)gridviewComment.Rows[IRow].FindControl("TxtSERVICER_NOTE")).Text.Trim();
+                    //
+                    foreach (DataRow dr in MaintainTbl7.Rows)
+                    {
+                        if (dr["IDx"].ToString() == IDx)
+                        {
+                            dr["DATE_NOTE"] = DATE_NOTE;
+                            dr["DESC_NOTE"] = DESC_NOTE;
+                            dr["MILEDGE_NOTE"] = MILEDGE_NOTE;
+                            dr["PRICE_NOTE"] = PRICE_NOTE;
+                            dr["SERVICER_NOTE"] = SERVICER_NOTE;
+                            break;
+                        }
+                    }
+                }
+            }
+            //
+            foreach (DataRow dr in MaintainTbl7.Rows)
+            {
+                if (dr["IDx"].ToString() == IDx_Del)
+                    dr.Delete();
+            }
+            //
+            MaintainTbl7.AcceptChanges();
+            Session["MaintainTbl7"] = MaintainTbl7;
+            //
+            var withBlock = gridviewComment;
+            withBlock.DataSource = Session["MaintainTbl7"];
+            withBlock.DataBind();
+            withBlock.AutoGenerateColumns = false;
+        }
+
         //Export Grid To Excel End
 
     }
