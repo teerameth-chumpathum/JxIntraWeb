@@ -196,6 +196,7 @@ namespace JxIntraWeb.App_Pages
                 string Path = "~/Upload/";
                 string PathAbsolute = "";
                 string PathAbsoluteUri = "";   // new Uri(Server.MapPath("~/images/Mudassar.jpg")).AbsoluteUri;
+                int Rx = 1; int Cx = 1;
                 foreach (DataRow DRow in OrderDSet.Tables["TB_IMAGE"].Rows)
                 {
                     DataRow newR_T7 = incDataSet1Obj.Tables["TB_ORDER_IMG"].NewRow();
@@ -203,11 +204,57 @@ namespace JxIntraWeb.App_Pages
                     PathAbsolute = Path + DRow["Image_FileActual"].ToString();
                     newR_T7["IMG_DESC"] = DRow["Image_Note"].ToString();
                     PathAbsoluteUri =  new Uri(Server.MapPath(PathAbsolute)).AbsoluteUri;
-                    //newR_T7["IMG_PATH"] = @"file:\\E:\JPX_WORK\JxIntraWeb\JxIntraWeb\Upload\202209-ROD2022-000477076517144a054ecea8179b49e4f49975.jpg";
+
+                    //newR_T7["IMG_PATH"] = PathAbsoluteUri;
+                    //incDataSet1Obj.Tables["TB_ORDER_IMG"].Rows.Add(newR_T7);
                     newR_T7["IMG_PATH"] = PathAbsoluteUri;
+                    //                   
+                    if (Cx > 3) { Rx += 1; Cx = 1; }
+                    newR_T7["Rx"] = Rx;
+                    newR_T7["Cx"] = Cx;
+                    Cx += 1;
+                    //
                     incDataSet1Obj.Tables["TB_ORDER_IMG"].Rows.Add(newR_T7);
                 }
                 //
+
+                //---------------------Edit 19-06-2024---------------------
+                if (incDataSet1Obj.Tables["TB_ORDER_IMG"].Rows.Count >= 1)
+                {
+                    for (int i = 0; i < Rx; i++)
+                    {
+                        DataRow newR_T8 = incDataSet1Obj.Tables["TB_ORDER_IMG1"].NewRow();
+                        newR_T8["IMG_DESC1"] = "";
+                        newR_T8["IMG_PATH1"] = "";
+                        newR_T8["IMG_DESC2"] = "";
+                        newR_T8["IMG_PATH2"] = "";
+                        newR_T8["IMG_DESC3"] = "";
+                        newR_T8["IMG_PATH3"] = "";
+                        incDataSet1Obj.Tables["TB_ORDER_IMG1"].Rows.Add(newR_T8);
+                    }
+                    //
+                    foreach (DataRow DRKey in incDataSet1Obj.Tables["TB_ORDER_IMG"].Rows)
+                    {
+                        int RowIdx = Convert.ToInt32(DRKey["Rx"]);
+                        int ColIdx = Convert.ToInt32(DRKey["Cx"]);
+                        string PIC_DESC = DRKey["IMG_DESC"].ToString();
+                        string PIC_PATH = DRKey["IMG_PATH"].ToString();
+                        //
+                        foreach (DataRow drSource in incDataSet1Obj.Tables["TB_ORDER_IMG1"].Rows)
+                        {
+                            int RowIdxSource = Convert.ToInt32(drSource["IRx"]);
+                            if (RowIdxSource == RowIdx)
+                            {
+                                if (ColIdx == 1) { drSource["IMG_DESC1"] = PIC_DESC; drSource["IMG_PATH1"] = PIC_PATH; }
+                                if (ColIdx == 2) { drSource["IMG_DESC2"] = PIC_DESC; drSource["IMG_PATH2"] = PIC_PATH; }
+                                if (ColIdx == 3) { drSource["IMG_DESC3"] = PIC_DESC; drSource["IMG_PATH3"] = PIC_PATH; }
+                                break;
+                            }
+                        }
+                        //
+                    }
+                }
+                //---------------------Edit 19-06-2024---------------------
 
                 //---------------------NEW--------------------------
                 var mnt_no_top = "";
@@ -260,6 +307,7 @@ namespace JxIntraWeb.App_Pages
                 ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("Detail3", DSetReportSource.Tables["DataTable5"]));
                 ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DT_MNT_ORDER_DESCL2", DSetReportSource.Tables["TB_ORDER_DESC2"]));
                 ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DT_IMG", DSetReportSource.Tables["TB_ORDER_IMG"]));
+                ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DT_IMG1", DSetReportSource.Tables["TB_ORDER_IMG1"]));
                 ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DT_LAST_HISTORY", DSetReportSource.Tables["dt_last_history"]));
                 // 
                 ReportViewer1.DocumentMapCollapsed = true;
