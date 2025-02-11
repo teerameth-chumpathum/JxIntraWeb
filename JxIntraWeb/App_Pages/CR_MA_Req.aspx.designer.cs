@@ -222,24 +222,6 @@ namespace JxIntraWeb.App_Pages
         protected global::System.Web.UI.WebControls.TextBox TxtOrderDate;
 
         /// <summary>
-        /// TxtOrderDate_CalendarExtender control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::AjaxControlToolkit.CalendarExtender TxtOrderDate_CalendarExtender;
-
-        /// <summary>
-        /// imgOrderDate3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton imgOrderDate3;
-
-        /// <summary>
         /// RdoCR control.
         /// </summary>
         /// <remarks>
