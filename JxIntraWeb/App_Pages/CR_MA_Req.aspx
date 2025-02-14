@@ -483,7 +483,7 @@
                             
                                             </tr>
                                             <tr>
-                                              <td style="text-align:left;">วันที่แจ้งซ่อม :<asp:TextBox ID="TxtOrderDate" runat="server" BorderStyle="None" class="w3-border-bottom" Font-Size="Small" Text="-" type="text" Width="100px" MaxLength="10" OnTextChanged="TxtOrderDate_TextChanged"></asp:TextBox>
+                                              <td style="text-align:left;">วันที่แจ้งซ่อม :<asp:TextBox ID="TxtOrderDate" runat="server" BorderStyle="None" class="w3-border-bottom" Font-Size="Small" Text="-" type="text" Width="100px" MaxLength="10" OnTextChanged="TxtOrderDate_TextChanged" Enabled="false"></asp:TextBox>
                                                   <%--<ajaxToolkit:CalendarExtender ID="TxtOrderDate_CalendarExtender" runat="server" BehaviorID="TxtOrderDate_CalendarExtender" Format="dd/MM/yyyy" PopupButtonID="imgOrderDate3" TargetControlID="TxtOrderDate" />--%>
                                                   <%--<asp:ImageButton ID="imgOrderDate3" runat="server" Height="18px" ImageUrl="~/App_Images/Calendar_scheduleHS.png" OnClick="imgOrderDate3_Click" ToolTip="เลือกวันที่" Width="16px" />--%>
                                                 </td>
